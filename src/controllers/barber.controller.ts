@@ -4,6 +4,8 @@ import MemberService from "../models/Member.service";
 import { LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 const barberController: T = {};
+const memberService = new MemberService();
+
 
 barberController.goHome = (req: Request, res: Response) => {
     try {
@@ -42,8 +44,9 @@ barberController.processLogin = async (req: Request, res: Response) => {
         console.log("body:", req.body)
         const input: LoginInput = req.body;
 
-        const memberService = new MemberService();
         const result = await memberService.processLogin(input);
+        // TODO: SESSIONS AUTHENTICATION
+
 
         res.send(result)
 
@@ -61,7 +64,6 @@ barberController.processSignup = async (req: Request, res: Response) => {
         const newMember: MemberInput = req.body;
         newMember.memberType = MemberType.BARBER;
 
-        const memberService = new MemberService();
         const result = await memberService.processSignup(newMember);
 
         res.send(result);

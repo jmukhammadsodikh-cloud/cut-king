@@ -21,7 +21,7 @@ app.set('view engine', 'ejs');
 
 /** 4-ROUTERS **/
 app.use("/admin", routerAdmin);  // BSSR: EJS, Traditional frontend development = Adminka
-app.use("/", router);            // SPA: REACT userlar uchun loyihamizga ishlatamiz
+app.use("/", router);            // SPA: REACT for users
 
 
 
