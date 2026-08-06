@@ -18,6 +18,10 @@ routerAdmin
     .get('/signup', barberController.getSignup)
     .post('/signup', barberController.processSignup)
 
+routerAdmin
+    .get('/check-me', barberController.checkAuthSession)
+
+
 
 /** Services */
 
