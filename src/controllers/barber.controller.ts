@@ -135,16 +135,6 @@ barberController.getDashboard = (req: Request, res: Response) => {
     catch (err) { console.log(err) }
 };
 
-barberController.getServices = (req: Request, res: Response) => {
-    try {
-        res.render("services", {
-            member: { memberNick: "CutKing" },
-            services: []
-        });
-    }
-    catch (err) { console.log(err) }
-};
-
 barberController.getUsers = (req: Request, res: Response) => {
     try {
         res.render("users", {

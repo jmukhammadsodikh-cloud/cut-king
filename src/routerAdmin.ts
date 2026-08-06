@@ -25,6 +25,9 @@ routerAdmin
 
 
 /** Services */
+routerAdmin.get('/services/all', barberController.getAllServices)
+routerAdmin.post('/service/create', barberController.createNewService)
+routerAdmin.post('/services/:id', barberController.updateChosenService)
 
 /** User */
 export default routerAdmin;
