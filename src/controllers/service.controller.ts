@@ -24,6 +24,7 @@ serviceController.getAllServices = async (req: Request, res: Response) => {
 serviceController.createNewService = async (req: Request, res: Response) => {
     try {
         console.log('createNewService')
+        res.send("DONE")
     }
     catch (err) {
         console.log("Error, createNewService:", err)

@@ -1,6 +1,7 @@
 import express from "express";
 const routerAdmin = express.Router();
 import barberController from "./controllers/barber.controller";
+import makeUploader from "./libs/utils/uploader";
 
 /** Barber admin */
 
@@ -16,7 +17,8 @@ routerAdmin
 
 routerAdmin
     .get('/signup', barberController.getSignup)
-    .post('/signup', barberController.processSignup)
+    .post('/signup', makeUploader("members").single("memberImage"),
+        barberController.processSignup)
 
 routerAdmin
     .get('/logout', barberController.logout)
@@ -33,6 +35,7 @@ routerAdmin
 routerAdmin
     .post('/service/create',
         barberController.veryfyRestaurant,
+        makeUploader("services").array("serviceImages", 5),
         barberController.createNewService,
     );
 routerAdmin.post('/services/:id',
