@@ -19,6 +19,7 @@ routerAdmin
     .post('/signup', barberController.processSignup)
 
 routerAdmin
+    .get('/logout', barberController.logout)
     .get('/check-me', barberController.checkAuthSession)
 
 
