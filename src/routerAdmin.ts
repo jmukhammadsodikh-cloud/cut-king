@@ -25,9 +25,20 @@ routerAdmin
 
 
 /** Services */
-routerAdmin.get('/services/all', barberController.getAllServices)
-routerAdmin.post('/service/create', barberController.createNewService)
-routerAdmin.post('/services/:id', barberController.updateChosenService)
+routerAdmin
+    .get('/services/all',
+        barberController.veryfyRestaurant, // MD oraliq mantiq
+        barberController.getAllServices
+    );
+routerAdmin
+    .post('/service/create',
+        barberController.veryfyRestaurant,
+        barberController.createNewService,
+    );
+routerAdmin.post('/services/:id',
+    barberController.veryfyRestaurant,
+    barberController.updateChosenService,
+);
 
 /** User */
 export default routerAdmin;

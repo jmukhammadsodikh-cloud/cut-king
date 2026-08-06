@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { T } from "../libs/types/common"
 import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
@@ -118,6 +118,24 @@ barberController.checkAuthSession = async (req: AdminRequest, res: Response) => 
     catch (err) {
         console.log("Error, checkAuthSession:", err)
         res.send(err);
+    }
+};
+
+
+barberController.veryfyRestaurant = (
+    req: AdminRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    // req.session icidan member check qilamiz typeRestaurant bolsh shart
+    if (req.session?.member?.memberType === MemberType.BARBER) {
+        req.member = req.session.member; // type checking
+        next();
+    } else {
+        const message = Message.NOT_AUTHENTICATED;
+        res.send(
+            `<script>alert("${message}"); window.location.replace('/admin/login);</script>`
+        );
     }
 };
 

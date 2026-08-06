@@ -2,6 +2,8 @@ import express, { Request, Response } from "express";
 import Errors from "../libs/Errors";
 import { T } from "../libs/types/common";
 import CuttingService from "../models/Cutting.service";
+import { AdminRequest } from "../libs/types/member";
+
 
 const cuttingService = new CuttingService();
 
