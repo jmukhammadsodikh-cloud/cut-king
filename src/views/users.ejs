@@ -1,14 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./includes/head', { pageTitle: 'Users' }) %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<div class="ck-wrap">
+  <%- include('./includes/sidebar', { page: 'users', member }) %>
 
-<body>
-    <div>USERS PAGE</div>
+  <div class="ck-main">
+    <div class="ck-topbar">
+      <span class="ck-page-title">USERS</span>
+      <div class="ck-topbar-right">
+        <span style="font-size:12px;color:var(--muted)">Total: <%= users ? users.length : 0 %> clients</span>
+      </div>
+    </div>
+
+    <div class="ck-content">
+      <div class="ck-panel">
+        <div class="ck-panel-head">
+          <span class="ck-panel-title">ALL USERS</span>
+        </div>
+        <table class="ck-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>NICK</th>
+              <th>PHONE</th>
+              <th>POINTS</th>
+              <th>JOINED</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (users && users.length > 0) { %>
+              <% users.forEach((u, i) => { %>
+                <tr>
+                  <td class="td-muted"><%= i + 1 %></td>
+                  <td class="td-name"><%= u.memberNick %></td>
+                  <td class="td-muted"><%= u.memberPhone %></td>
+                  <td class="td-gold"><%= u.memberPoints %></td>
+                  <td class="td-muted"><%= new Date(u.createdAt).toLocaleDateString('ko-KR') %></td>
+                  <td>
+                    <select class="ck-select user-status" id="<%= u._id %>">
+                      <option value="ACTIVE" <%= u.memberStatus === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
+                      <option value="BLOCK"  <%= u.memberStatus === 'BLOCK'  ? 'selected' : '' %>>BLOCK</option>
+                      <option value="DELETE" <%= u.memberStatus === 'DELETE' ? 'selected' : '' %>>DELETE</option>
+                    </select>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="6" class="ck-empty">No users registered yet</td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.user-status').forEach(sel => {
+  sel.addEventListener('change', function() {
+    const id = this.id;
+    const status = this.value;
+    fetch('/admin/user/edit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ _id: id, memberStatus: status })
+    });
+  });
+});
+</script>
+
 </body>
-
 </html>

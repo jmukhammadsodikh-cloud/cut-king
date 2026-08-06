@@ -1,0 +1,84 @@
+<%- include('./includes/head', { pageTitle: 'Masters' }) %>
+
+<div class="ck-wrap">
+  <%- include('./includes/sidebar', { page: 'masters', member }) %>
+
+  <div class="ck-main">
+    <div class="ck-topbar">
+      <span class="ck-page-title">MASTERS</span>
+      <div class="ck-topbar-right">
+        <a href="/admin/master/create" class="btn btn-gold btn-sm">+ Add Master</a>
+      </div>
+    </div>
+
+    <div class="ck-content">
+      <div class="ck-panel">
+        <div class="ck-panel-head">
+          <span class="ck-panel-title">ALL MASTERS (<%= masters ? masters.length : 0 %>)</span>
+        </div>
+        <table class="ck-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>NAME</th>
+              <th>PHONE</th>
+              <th>SPECIALTY</th>
+              <th>EXPERIENCE</th>
+              <th>POINTS</th>
+              <th>STATUS</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (masters && masters.length > 0) { %>
+              <% masters.forEach((m, i) => { %>
+                <tr>
+                  <td class="td-muted"><%= i + 1 %></td>
+                  <td class="td-name"><%= m.memberNick %></td>
+                  <td class="td-muted"><%= m.memberPhone %></td>
+                  <td class="td-muted"><%= m.memberSpecialty %></td>
+                  <td class="td-muted"><%= m.memberExperience %></td>
+                  <td class="td-gold"><%= m.memberPoints %></td>
+                  <td>
+                    <select class="ck-select master-status" id="<%= m._id %>">
+                      <option value="ACTIVE" <%= m.memberStatus === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
+                      <option value="BLOCK"  <%= m.memberStatus === 'BLOCK'  ? 'selected' : '' %>>BLOCK</option>
+                      <option value="DELETE" <%= m.memberStatus === 'DELETE' ? 'selected' : '' %>>DELETE</option>
+                    </select>
+                  </td>
+                  <td>
+                    <a href="/admin/master/<%= m._id %>/edit" class="btn btn-ghost btn-sm">Edit</a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="8" class="ck-empty">
+                  No masters yet —
+                  <a href="/admin/master/create" style="color:var(--gold)">Add your first master</a>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.master-status').forEach(sel => {
+  sel.addEventListener('change', function() {
+    const id = this.id;
+    const status = this.value;
+    fetch('/admin/master/edit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ _id: id, memberStatus: status })
+    });
+  });
+});
+</script>
+
+</body>
+</html>

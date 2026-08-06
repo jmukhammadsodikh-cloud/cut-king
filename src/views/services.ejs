@@ -1,14 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./includes/head', { pageTitle: 'Services' }) %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<div class="ck-wrap">
+  <%- include('./includes/sidebar', { page: 'services', member }) %>
 
-<body>
-    <div>PRODUCTS PAGE</div>
+  <div class="ck-main">
+    <div class="ck-topbar">
+      <span class="ck-page-title">SERVICES</span>
+      <div class="ck-topbar-right">
+        <a href="/admin/service/create" class="btn btn-gold btn-sm">+ New Service</a>
+      </div>
+    </div>
+
+    <div class="ck-content">
+      <div class="ck-panel">
+        <div class="ck-panel-head">
+          <span class="ck-panel-title">ALL SERVICES (<%= services ? services.length : 0 %>)</span>
+        </div>
+        <table class="ck-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>SERVICE NAME</th>
+              <th>CATEGORY</th>
+              <th>DURATION</th>
+              <th>PRICE</th>
+              <th>STATUS</th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (services && services.length > 0) { %>
+              <% services.forEach((s, i) => { %>
+                <tr>
+                  <td class="td-muted"><%= i + 1 %></td>
+                  <td class="td-name"><%= s.serviceName %></td>
+                  <td class="td-muted"><%= s.serviceCollection %></td>
+                  <td class="td-muted"><%= s.serviceDuration %> min</td>
+                  <td class="td-gold">₩<%= s.servicePrice.toLocaleString() %></td>
+                  <td>
+                    <select class="ck-select service-status" id="<%= s._id %>">
+                      <option value="AVAILABLE" <%= s.serviceStatus === 'AVAILABLE' ? 'selected' : '' %>>AVAILABLE</option>
+                      <option value="SOLD_OUT"  <%= s.serviceStatus === 'SOLD_OUT'  ? 'selected' : '' %>>SOLD OUT</option>
+                      <option value="PAUSE"     <%= s.serviceStatus === 'PAUSE'     ? 'selected' : '' %>>PAUSE</option>
+                    </select>
+                  </td>
+                  <td>
+                    <a href="/admin/service/<%= s._id %>/edit" class="btn btn-ghost btn-sm">Edit</a>
+                  </td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr>
+                <td colspan="7" class="ck-empty">
+                  No services yet —
+                  <a href="/admin/service/create" style="color:var(--gold)">Add your first service</a>
+                </td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelectorAll('.service-status').forEach(sel => {
+  sel.addEventListener('change', function() {
+    const id = this.id;
+    const status = this.value;
+    fetch('/admin/service/' + id, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ serviceStatus: status })
+    });
+  });
+});
+</script>
+
 </body>
-
 </html>

@@ -1,16 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./includes/head', { pageTitle: 'Welcome' }) %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <script src="/js/main.js"></script>
-</head>
+<div class="ck-home">
+  <nav class="ck-pub-nav">
+    <a href="/" class="ck-pub-logo">✂ CUTKING</a>
+    <div class="ck-pub-links">
+      <a href="/admin/signup" class="ck-pub-link">Signup</a>
+      <a href="/admin/login" class="ck-pub-link btn btn-gold" style="color:#1c1208">Login</a>
+    </div>
+  </nav>
 
-<body>
-    <div class="format1"> TEST</div>
+  <section class="ck-hero">
+    <div class="ck-hero-tag">SEOUL'S PREMIUM BARBERSHOP</div>
+    <h1 class="ck-hero-h1">CRAFT FOR<br>THE <span>KING</span></h1>
+    <p class="ck-hero-sub">Manage your barbershop with precision. Services, masters, and clients — all in one place.</p>
+    <a href="/admin" class="ck-hero-btn">OPEN ADMIN PANEL</a>
+
+    <div class="ck-hero-stats">
+      <div class="ck-hero-stat">
+        <div class="num">24+</div>
+        <div class="lbl">SERVICES</div>
+      </div>
+      <div class="ck-hero-stat">
+        <div class="num">12</div>
+        <div class="lbl">MASTERS</div>
+      </div>
+      <div class="ck-hero-stat">
+        <div class="num">2K+</div>
+        <div class="lbl">CLIENTS</div>
+      </div>
+      <div class="ck-hero-stat">
+        <div class="num">8yr</div>
+        <div class="lbl">EXPERIENCE</div>
+      </div>
+    </div>
+  </section>
+</div>
+
 </body>
-
 </html>

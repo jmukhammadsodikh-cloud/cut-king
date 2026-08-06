@@ -9,9 +9,8 @@ const memberService = new MemberService();
 
 barberController.goHome = (req: Request, res: Response) => {
     try {
-        console.log('goHome')
+
         res.render("home");
-        // send | json | redirect | end | render
     }
     catch (err) {
         console.log("Error, goHome:", err)
@@ -72,5 +71,52 @@ barberController.processSignup = async (req: Request, res: Response) => {
         console.log("Error, processSignup:", err)
         res.send(err)
     }
+
 };
+
+// hardcoding
+
+barberController.getDashboard = (req: Request, res: Response) => {
+    try {
+        res.render("dashboard", {
+            member: { memberNick: "CutKing" },  // hardcode
+            services: [],
+            users: [],
+            masters: []
+        });
+    }
+    catch (err) { console.log(err) }
+};
+
+barberController.getServices = (req: Request, res: Response) => {
+    try {
+        res.render("services", {
+            member: { memberNick: "CutKing" },
+            services: []
+        });
+    }
+    catch (err) { console.log(err) }
+};
+
+barberController.getUsers = (req: Request, res: Response) => {
+    try {
+        res.render("users", {
+            member: { memberNick: "CutKing" },
+            users: []
+        });
+    }
+    catch (err) { console.log(err) }
+};
+
+barberController.getMasters = (req: Request, res: Response) => {
+    try {
+        res.render("masters", {
+            member: { memberNick: "CutKing" },
+            masters: []
+        });
+    }
+    catch (err) { console.log(err) }
+};
+
+
 export default barberController;

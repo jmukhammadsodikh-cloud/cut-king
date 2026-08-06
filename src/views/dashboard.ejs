@@ -1,0 +1,167 @@
+<%- include('./includes/head', { pageTitle: 'Dashboard' }) %>
+
+<div class="ck-wrap">
+  <%- include('./includes/sidebar', { page: 'home', member }) %>
+
+  <div class="ck-main">
+    <div class="ck-topbar">
+      <span class="ck-page-title">DASHBOARD</span>
+      <div class="ck-topbar-right">
+        <a href="/admin/service/create" class="btn btn-ghost btn-sm">+ Add Service</a>
+        <a href="/admin/master/create" class="btn btn-gold btn-sm">+ Add Master</a>
+      </div>
+    </div>
+
+    <div class="ck-content">
+
+      <!-- STATS -->
+      <div class="ck-stats">
+        <div class="stat-card gold">
+          <div class="stat-label">TOTAL SERVICES</div>
+          <div class="stat-value"><%= services ? services.length : 0 %></div>
+          <div class="stat-sub">Active services</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-label">TOTAL USERS</div>
+          <div class="stat-value"><%= users ? users.length : 0 %></div>
+          <div class="stat-sub">Registered clients</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-label">MASTERS</div>
+          <div class="stat-value"><%= masters ? masters.length : 0 %></div>
+          <div class="stat-sub">Active today</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-label">THIS MONTH</div>
+          <div class="stat-value">–</div>
+          <div class="stat-sub">Appointments</div>
+        </div>
+      </div>
+
+      <!-- TWO COL -->
+      <div class="ck-two-col">
+
+        <!-- RECENT SERVICES -->
+        <div class="ck-panel">
+          <div class="ck-panel-head">
+            <span class="ck-panel-title">RECENT SERVICES</span>
+            <a href="/admin/service/all" class="btn btn-ghost btn-sm">View all</a>
+          </div>
+          <table class="ck-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>SERVICE</th>
+                <th>CATEGORY</th>
+                <th>PRICE</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (services && services.length > 0) { %>
+                <% services.slice(0,5).forEach((s, i) => { %>
+                  <tr>
+                    <td class="td-muted"><%= i + 1 %></td>
+                    <td class="td-name"><%= s.serviceName %></td>
+                    <td class="td-muted"><%= s.serviceCollection %></td>
+                    <td class="td-gold">₩<%= s.servicePrice.toLocaleString() %></td>
+                    <td>
+                      <span class="badge <%= s.serviceStatus === 'AVAILABLE' ? 'badge-avail' : 'badge-sold' %>">
+                        <%= s.serviceStatus %>
+                      </span>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr><td colspan="5" class="ck-empty">No services yet</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- RECENT USERS -->
+        <div class="ck-panel">
+          <div class="ck-panel-head">
+            <span class="ck-panel-title">RECENT USERS</span>
+            <a href="/admin/user/all" class="btn btn-ghost btn-sm">View all</a>
+          </div>
+          <table class="ck-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>NICK</th>
+                <th>PHONE</th>
+                <th>POINTS</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (users && users.length > 0) { %>
+                <% users.slice(0,5).forEach((u, i) => { %>
+                  <tr>
+                    <td class="td-muted"><%= i + 1 %></td>
+                    <td class="td-name"><%= u.memberNick %></td>
+                    <td class="td-muted"><%= u.memberPhone %></td>
+                    <td class="td-gold"><%= u.memberPoints %></td>
+                    <td>
+                      <span class="badge badge-<%= u.memberStatus.toLowerCase() %>">
+                        <%= u.memberStatus %>
+                      </span>
+                    </td>
+                  </tr>
+                <% }) %>
+              <% } else { %>
+                <tr><td colspan="5" class="ck-empty">No users yet</td></tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- MASTERS -->
+      <div class="ck-panel">
+        <div class="ck-panel-head">
+          <span class="ck-panel-title">MASTERS</span>
+          <a href="/admin/master/all" class="btn btn-ghost btn-sm">View all</a>
+        </div>
+        <table class="ck-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>NAME</th>
+              <th>SPECIALTY</th>
+              <th>EXPERIENCE</th>
+              <th>STATUS</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (masters && masters.length > 0) { %>
+              <% masters.forEach((m, i) => { %>
+                <tr>
+                  <td class="td-muted"><%= i + 1 %></td>
+                  <td class="td-name"><%= m.memberNick %></td>
+                  <td class="td-muted"><%= m.memberSpecialty %></td>
+                  <td class="td-muted"><%= m.memberExperience %></td>
+                  <td>
+                    <span class="badge badge-<%= m.memberStatus.toLowerCase() %>">
+                      <%= m.memberStatus %>
+                    </span>
+                  </td>
+                  <td><a href="/admin/master/<%= m._id %>/edit" class="btn btn-ghost btn-sm">Edit</a></td>
+                </tr>
+              <% }) %>
+            <% } else { %>
+              <tr><td colspan="6" class="ck-empty">No masters yet — <a href="/admin/master/create" style="color:var(--gold)">Add one</a></td></tr>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

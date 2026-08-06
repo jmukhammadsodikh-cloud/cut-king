@@ -5,6 +5,10 @@ import barberController from "./controllers/barber.controller";
 /** Barber admin */
 
 routerAdmin.get('/', barberController.goHome);
+routerAdmin.get('/dashboard', barberController.getDashboard);
+routerAdmin.get('/service/all', barberController.getServices);
+routerAdmin.get('/user/all', barberController.getUsers);
+routerAdmin.get('/master/all', barberController.getMasters);
 
 routerAdmin
     .get('/login', barberController.getLogin)

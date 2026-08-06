@@ -1,14 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./includes/head', { pageTitle: 'Login' }) %>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+<div class="ck-auth">
+  <div class="ck-auth-box">
+    <div class="ck-auth-logo">
+      <h1>✂ CUT<span>KING</span></h1>
+    </div>
+    <p class="ck-auth-title">Welcome back</p>
 
-<body>
-    <div>LOGIN PAGE</div>
+    <% if (typeof err !== 'undefined' && err) { %>
+      <div class="ck-auth-err" style="display:block"><%= err %></div>
+    <% } %>
+
+    <form action="/admin/login" method="POST">
+      <div class="ck-form-group">
+        <label class="ck-label">NICK</label>
+        <input class="ck-input" type="text" name="memberNick" placeholder="cutking_official" required />
+      </div>
+      <div class="ck-form-group">
+        <label class="ck-label">PASSWORD</label>
+        <input class="ck-input" type="password" name="memberPassword" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;">
+        LOGIN
+      </button>
+    </form>
+
+    <div class="ck-auth-foot">
+      No account? <a href="/admin/signup">Create one</a>
+    </div>
+  </div>
+</div>
+
 </body>
-
 </html>
