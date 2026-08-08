@@ -1,35 +1,47 @@
-<%- include('./includes/head', { pageTitle: 'Login' }) %>
+<%- include('./includes/head', { pageTitle: 'Login', pageStyle: 'auth' }) %>
 
-<div class="ck-auth">
-  <div class="ck-auth-box">
-    <div class="ck-auth-logo">
-      <h1>✂ CUT<span>KING</span></h1>
+<main class="ck-auth-page">
+  <section class="ck-auth-visual">
+    <div class="ck-auth-visual-bg"></div>
+    <div class="ck-auth-visual-shade"></div>
+    <a href="/admin" class="ck-auth-brand"><span>✂</span> CUT<span>KING</span></a>
+
+    <div class="ck-auth-quote">
+      <p>“Precision behind the chair.<br /><em>Clarity behind the shop.</em>”</p>
+      <span>— CUTKING OS</span>
     </div>
-    <p class="ck-auth-title">Welcome back</p>
+  </section>
 
-    <% if (typeof err !== 'undefined' && err) { %>
-      <div class="ck-auth-err" style="display:block"><%= err %></div>
-    <% } %>
+  <section class="ck-auth-form-side">
+    <div class="ck-auth-form-wrap">
+      <a href="/admin" class="ck-mobile-brand">✂ CUT<span>KING</span></a>
+      <div class="ck-auth-kicker">ADMIN ACCESS · 01</div>
+      <h1>Welcome back.</h1>
+      <p class="ck-auth-intro">Sign in to your shop workspace.</p>
 
-    <form action="/admin/login" method="POST">
-      <div class="ck-form-group">
-        <label class="ck-label">NICK</label>
-        <input class="ck-input" type="text" name="memberNick" placeholder="cutking_official" required />
-      </div>
-      <div class="ck-form-group">
-        <label class="ck-label">PASSWORD</label>
-        <input class="ck-input" type="password" name="memberPassword" placeholder="••••••••" required />
-      </div>
-      <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;">
-        LOGIN
-      </button>
-    </form>
+      <% if (typeof err !== 'undefined' && err) { %>
+        <div class="ck-auth-error"><%= err %></div>
+      <% } %>
 
-    <div class="ck-auth-foot">
-      No account? <a href="/admin/signup">Create one</a>
+      <form action="/admin/login" method="POST" class="ck-auth-form">
+        <label>
+          <span>SHOP NICK</span>
+          <input type="text" name="memberNick" placeholder="cutking_official" autocomplete="username" required />
+        </label>
+
+        <label>
+          <span>PASSWORD</span>
+          <input type="password" name="memberPassword" placeholder="••••••••" autocomplete="current-password" required />
+        </label>
+
+        <button class="ck-primary-btn ck-full-btn" type="submit">Enter workspace <span>↗</span></button>
+      </form>
+
+      <p class="ck-auth-switch">New shop? <a href="/admin/signup">Create an account</a></p>
+      <a class="ck-back-home" href="/admin">← Back to homepage</a>
     </div>
-  </div>
-</div>
+  </section>
+</main>
 
 </body>
 </html>

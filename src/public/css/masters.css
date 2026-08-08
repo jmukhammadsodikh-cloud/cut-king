@@ -1,0 +1,16 @@
+
+.ck-master-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+.ck-master-card { padding: 20px; border: 1px solid var(--line); background: var(--paper-2); transition: .22s ease; }
+.ck-master-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.ck-master-card-top { display: flex; align-items: center; justify-content: space-between; }
+.ck-master-profile { display: flex; align-items: center; gap: 15px; margin: 44px 0 30px; }
+.ck-master-large-avatar { width: 72px; height: 72px; flex: 0 0 72px; display: grid; place-items: center; overflow: hidden; background: #e7e3da; color: var(--gold-dark); font: 800 24px "Manrope", sans-serif; }
+.ck-master-large-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.ck-master-profile h3 { margin: 7px 0 3px; font: 800 21px "Manrope", sans-serif; letter-spacing: -.04em; }
+.ck-master-profile p { margin: 0; color: var(--muted); font-size: 11px; }
+.ck-master-meta { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); padding-top: 15px; gap: 15px; }
+.ck-master-meta small, .ck-master-meta strong { display: block; }
+.ck-master-meta small { color: var(--muted-2); font-size: 8px; letter-spacing: .13em; }
+.ck-master-meta strong { margin-top: 5px; font-size: 11px; }
+@media (max-width: 1100px) { .ck-master-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 680px) { .ck-master-grid { grid-template-columns: 1fr; } }

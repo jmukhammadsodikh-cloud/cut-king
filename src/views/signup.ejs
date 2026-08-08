@@ -1,39 +1,63 @@
-<%- include('./includes/head', { pageTitle: 'Signup' }) %>
+<%- include('./includes/head', { pageTitle: 'Sign up', pageStyle: 'auth' }) %>
 
-<div class="ck-auth">
-  <div class="ck-auth-box">
-    <div class="ck-auth-logo">
-      <h1>✂ CUT<span>KING</span></h1>
+<main class="ck-auth-page">
+  <section class="ck-auth-visual">
+    <div class="ck-auth-visual-bg"></div>
+    <div class="ck-auth-visual-shade"></div>
+    <a href="/admin" class="ck-auth-brand"><span>✂</span> CUT<span>KING</span></a>
+
+    <div class="ck-auth-quote">
+      <p>Open your chair.<br /><em>Own your workspace.</em></p>
+      <span>SHOP SETUP · 02</span>
     </div>
-    <p class="ck-auth-title">Create Admin Account</p>
+  </section>
 
-    <% if (typeof err !== 'undefined' && err) { %>
-      <div class="ck-auth-err" style="display:block"><%= err %></div>
-    <% } %>
+  <section class="ck-auth-form-side">
+    <div class="ck-auth-form-wrap">
+      <a href="/admin" class="ck-mobile-brand">✂ CUT<span>KING</span></a>
+      <div class="ck-auth-kicker">SHOP SETUP · 02</div>
+      <h1>Create your account.</h1>
+      <p class="ck-auth-intro">Set up the admin profile for your barbershop.</p>
 
-    <form action="/admin/signup" method="POST">
-      <div class="ck-form-group">
-        <label class="ck-label">SHOP NAME (NICK)</label>
-        <input class="ck-input" type="text" name="memberNick" placeholder="cutking_official" required />
-      </div>
-      <div class="ck-form-group">
-        <label class="ck-label">PHONE</label>
-        <input class="ck-input" type="text" name="memberPhone" placeholder="010-0000-0000" required />
-      </div>
-      <div class="ck-form-group">
-        <label class="ck-label">PASSWORD</label>
-        <input class="ck-input" type="password" name="memberPassword" placeholder="••••••••" required />
-      </div>
-      <button type="submit" class="btn btn-gold" style="width:100%;justify-content:center;padding:12px;">
-        CREATE ACCOUNT
-      </button>
-    </form>
+      <% if (typeof err !== 'undefined' && err) { %>
+        <div class="ck-auth-error"><%= err %></div>
+      <% } %>
 
-    <div class="ck-auth-foot">
-      Already have an account? <a href="/admin/login">Login</a>
+      <form action="/admin/signup" method="POST" enctype="multipart/form-data" class="ck-auth-form">
+        <div class="ck-form-grid">
+          <label>
+            <span>BARBER NAME</span>
+            <input type="text" name="memberNick" placeholder="Kim Barber" required />
+          </label>
+
+          <label>
+            <span>PHONE</span>
+            <input type="text" name="memberPhone" placeholder="010-1234-5678" required />
+          </label>
+        </div>
+
+        <label>
+          <span>PASSWORD</span>
+          <input type="password" name="memberPassword" placeholder="Create a secure password" required />
+        </label>
+
+        <label class="ck-file-field">
+          <span>PROFILE IMAGE</span>
+          <div class="ck-file-box">
+            <strong>Choose profile image</strong>
+            <small>JPG, JPEG or PNG · recommended 800×800</small>
+            <input type="file" name="memberImage" accept="image/jpeg,image/jpg,image/png" required />
+          </div>
+        </label>
+
+        <button class="ck-primary-btn ck-full-btn" type="submit">Create shop account <span>↗</span></button>
+      </form>
+
+      <p class="ck-auth-switch">Already have an account? <a href="/admin/login">Log in</a></p>
+      <a class="ck-back-home" href="/admin">← Back to homepage</a>
     </div>
-  </div>
-</div>
+  </section>
+</main>
 
 </body>
 </html>

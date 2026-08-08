@@ -1,0 +1,75 @@
+<%- include('./includes/head', { pageTitle: 'New Service', pageStyle: 'services' }) %>
+
+<div class="ck-app">
+  <%- include('./includes/sidebar', { page: 'services', member }) %>
+
+  <main class="ck-main">
+    <header class="ck-topbar">
+      <div>
+        <span class="ck-topbar-kicker">WORKSPACE / CATALOG / NEW</span>
+        <h1>Create <em>service.</em></h1>
+      </div>
+      <a href="/admin/services/all" class="ck-outline-btn">← Back to services</a>
+    </header>
+
+    <section class="ck-page-content">
+      <form action="/admin/services/create" method="POST" enctype="multipart/form-data" class="ck-create-grid">
+        <section class="ck-dashboard-panel ck-create-main">
+          <span class="ck-section-kicker">SERVICE DETAILS</span>
+          <h2>Define the experience.</h2>
+          <p class="ck-create-intro">Keep the menu simple, clear and easy for clients to understand.</p>
+
+          <label class="ck-field"><span>Service name</span><input name="serviceName" placeholder="Seoul Signature Fade" required /></label>
+          <div class="ck-form-grid">
+            <label class="ck-field"><span>Category</span>
+              <select name="serviceCollection" required>
+                <option value="">Choose category</option>
+                <option value="SIGNATURE">Signature</option>
+                <option value="HAIRCUT">Haircut</option>
+                <option value="PERM">Perm</option>
+                <option value="BEARD">Beard</option>
+                <option value="COLOR">Color</option>
+                <option value="SCALP_CARE">Scalp care</option>
+                <option value="STYLING">Styling</option>
+                <option value="PACKAGE">Package</option>
+              </select>
+            </label>
+            <label class="ck-field"><span>Status</span>
+              <select name="serviceStatus">
+                <option value="ACTIVE">Active</option>
+                <option value="PAUSED">Paused</option>
+                <option value="COMING_SOON">Coming soon</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="ck-form-grid">
+            <label class="ck-field"><span>Duration · minutes</span><input type="number" name="serviceDuration" min="5" step="5" placeholder="60" required /></label>
+            <label class="ck-field"><span>Price · KRW</span><input type="number" name="servicePrice" min="0" step="1000" placeholder="45000" required /></label>
+          </div>
+
+          <label class="ck-field"><span>Description</span><textarea name="serviceDesc" rows="5" placeholder="A short description clients will understand." required></textarea></label>
+
+          <div class="ck-create-actions">
+            <a href="/admin/services/all" class="ck-outline-btn">Cancel</a>
+            <button class="ck-primary-btn" type="submit">Create service <span>↗</span></button>
+          </div>
+        </section>
+
+        <aside class="ck-dashboard-panel ck-create-side">
+          <span class="ck-section-kicker">PREVIEW</span>
+          <div class="ck-preview-card">
+            <span>HAIRCUT</span>
+            <h3>Your service.</h3>
+            <p>Professional CutKing service.</p>
+            <div><strong>60 MIN</strong><strong>₩45,000</strong></div>
+          </div>
+          <p class="ck-side-tip">Tip · Signature services should have a distinct name and a short client-friendly description.</p>
+        </aside>
+      </form>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

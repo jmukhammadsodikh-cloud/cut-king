@@ -1,41 +1,54 @@
 <aside class="ck-sidebar">
-    <div class="ck-logo">
-        <h1>✂ CUTKING</h1>
-        <span>ADMIN PANEL</span>
-    </div>
+  <a href="/admin/dashboard" class="ck-brand">
+    <span class="ck-brand-mark">CK</span>
+    <span>
+      <strong>CUT<span>KING</span></strong>
+      <small>BARBERSHOP OS</small>
+    </span>
+  </a>
 
-    <nav class="ck-nav">
-        <div class="ck-nav-label">MAIN</div>
-        <a href="/admin/dashboard" class="ck-nav-item <%= page === 'home' ? 'active' : '' %>">
-            <span class="ck-nav-icon">⊞</span> Dashboard
-        </a>
-        <div class="ck-nav-label">MANAGE</div>
-        <a href="/admin/service/all" class="ck-nav-item <%= page === 'services' ? 'active' : '' %>">
-            <span class="ck-nav-icon">✂</span> Services
-        </a>
-        <a href="/admin/master/all" class="ck-nav-item <%= page === 'masters' ? 'active' : '' %>">
-            <span class="ck-nav-icon">★</span> Masters
-        </a>
-        <a href="/admin/user/all" class="ck-nav-item <%= page === 'users' ? 'active' : '' %>">
-            <span class="ck-nav-icon">◎</span> Users
-        </a>
-        <div class="ck-nav-label">ACCOUNT</div>
-        <a href="/admin/logout" class="ck-nav-item">
-            <span class="ck-nav-icon">→</span> Logout
-        </a>
-    </nav>
+  <div class="ck-sidebar-section">
+    <span class="ck-sidebar-label">WORKSPACE</span>
 
-    <div class="ck-sidebar-foot">
-        <div class="ck-admin-info">
-            <div class="ck-avatar">
-                <%= member ? member.memberNick[0].toUpperCase() : 'A' %>
-            </div>
-            <div>
-                <div class="ck-admin-name">
-                    <%= member ? member.memberNick : 'Admin' %>
-                </div>
-                <div class="ck-admin-role">Barber Shop</div>
-            </div>
-        </div>
+    <a href="/admin/dashboard" class="ck-side-link <%= page === 'dashboard' ? 'is-active' : '' %>">
+      <span class="ck-side-icon">⌂</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a href="/admin/services/all" class="ck-side-link <%= page === 'services' ? 'is-active' : '' %>">
+      <span class="ck-side-icon">✂</span>
+      <span>Services</span>
+    </a>
+
+    <a href="/admin/master/all" class="ck-side-link <%= page === 'masters' ? 'is-active' : '' %>">
+      <span class="ck-side-icon">✦</span>
+      <span>Masters</span>
+    </a>
+
+    <a href="/admin/user/all" class="ck-side-link <%= page === 'users' ? 'is-active' : '' %>">
+      <span class="ck-side-icon">◎</span>
+      <span>Clients</span>
+    </a>
+  </div>
+
+  <div class="ck-sidebar-section ck-sidebar-lower">
+    <span class="ck-sidebar-label">ACCOUNT</span>
+    <a href="/admin/logout" class="ck-side-link">
+      <span class="ck-side-icon">↗</span>
+      <span>Sign out</span>
+    </a>
+  </div>
+
+  <div class="ck-profile-mini">
+    <div class="ck-profile-avatar">
+      <%= member && member.memberImage
+        ? '<img src="/' + member.memberImage + '" alt="" />'
+        : (member && member.memberNick ? member.memberNick.charAt(0).toUpperCase() : 'C') %>
     </div>
+    <div class="ck-profile-copy">
+      <strong><%= member ? member.memberNick : 'CutKing' %></strong>
+      <span>Shop admin</span>
+    </div>
+    <span class="ck-live-dot"></span>
+  </div>
 </aside>

@@ -1,40 +1,66 @@
-<%- include('./includes/head', { pageTitle: 'Welcome' }) %>
+<%- include('./includes/head', { pageTitle: 'Home', pageStyle: 'home' }) %>
 
-<div class="ck-home">
-  <nav class="ck-pub-nav">
-    <a href="/" class="ck-pub-logo">✂ CUTKING</a>
-    <div class="ck-pub-links">
-      <a href="/admin/signup" class="ck-pub-link">Signup</a>
-      <a href="/admin/login" class="ck-pub-link btn btn-gold" style="color:#1c1208">Login</a>
+<main class="ck-public-home">
+  <div class="ck-home-image" aria-hidden="true"></div>
+  <div class="ck-home-shade" aria-hidden="true"></div>
+
+  <nav class="ck-public-nav">
+    <a href="/admin" class="ck-public-brand">
+      <span class="ck-scissor">✂</span>
+      <span>CUT<span>KING</span></span>
+    </a>
+
+    <div class="ck-public-links">
+      <a href="/admin" class="is-current">Home</a>
+      <a href="/admin/signup">Sign up</a>
+      <a href="/admin/login" class="ck-public-login">Log in <span>↗</span></a>
     </div>
   </nav>
 
-  <section class="ck-hero">
-    <div class="ck-hero-tag">SEOUL'S PREMIUM BARBERSHOP</div>
-    <h1 class="ck-hero-h1">CRAFT FOR<br>THE <span>KING</span></h1>
-    <p class="ck-hero-sub">Manage your barbershop with precision. Services, masters, and clients — all in one place.</p>
-    <a href="/admin" class="ck-hero-btn">OPEN ADMIN PANEL</a>
+  <section class="ck-home-hero">
+    <div class="ck-hero-copy">
+      <p class="ck-eyebrow"><span></span> SEOUL · PREMIUM BARBERSHOP</p>
 
-    <div class="ck-hero-stats">
-      <div class="ck-hero-stat">
-        <div class="num">24+</div>
-        <div class="lbl">SERVICES</div>
+      <h1>
+        CRAFT THE CUT.<br />
+        <em>RUN THE SHOP.</em>
+      </h1>
+
+      <p class="ck-hero-text">
+        A clean command center for modern barbershops —
+        services, masters and clients in one focused workspace.
+      </p>
+
+      <div class="ck-home-actions">
+        <a href="/admin/login" class="ck-primary-btn">Open dashboard <span>↗</span></a>
+        <a href="/admin/signup" class="ck-quiet-btn">Create shop account</a>
       </div>
-      <div class="ck-hero-stat">
-        <div class="num">12</div>
-        <div class="lbl">MASTERS</div>
+    </div>
+
+    <div class="ck-home-side">
+      <div class="ck-side-note">
+        <span class="ck-side-line"></span>
+        <span>BUILT FOR THE CHAIR</span>
       </div>
-      <div class="ck-hero-stat">
-        <div class="num">2K+</div>
-        <div class="lbl">CLIENTS</div>
-      </div>
-      <div class="ck-hero-stat">
-        <div class="num">8yr</div>
-        <div class="lbl">EXPERIENCE</div>
+
+      <div class="ck-home-card">
+        <div class="ck-home-card-top">
+          <span>01 / CONTROL</span>
+          <span>2026</span>
+        </div>
+        <strong>Everything<br />in one place.</strong>
+        <p>Manage the details behind every great cut.</p>
       </div>
     </div>
   </section>
-</div>
+
+  <footer class="ck-public-footer">
+    <div><strong>01</strong> SERVICES</div>
+    <div><strong>02</strong> MASTERS</div>
+    <div><strong>03</strong> CLIENTS</div>
+    <div class="ck-footer-location">SEOUL, SOUTH KOREA · CUTKING</div>
+  </footer>
+</main>
 
 </body>
 </html>

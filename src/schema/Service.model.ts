@@ -35,12 +35,12 @@ const serviceSchema = new Schema(
             required: true,
         },
 
-        productImages: {
+        serviceImages: {
             type: [String],
             default: []
         },
 
-        productViews: {
+        serviceViews: {
             type: Number,
             default: 0,
 
@@ -51,7 +51,7 @@ const serviceSchema = new Schema(
 );
 
 serviceSchema.index(
-    { productName: 1, productSize: 1, productVolume: 1 },
+    { serviceName: 1, serviceDuration: 1 },
     { unique: true })
 
 export default mongoose.model("Service", serviceSchema);

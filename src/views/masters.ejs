@@ -1,83 +1,71 @@
-<%- include('./includes/head', { pageTitle: 'Masters' }) %>
+<%- include('./includes/head', { pageTitle: 'Masters', pageStyle: 'masters' }) %>
 
-<div class="ck-wrap">
+<div class="ck-app">
   <%- include('./includes/sidebar', { page: 'masters', member }) %>
 
-  <div class="ck-main">
-    <div class="ck-topbar">
-      <span class="ck-page-title">MASTERS</span>
-      <div class="ck-topbar-right">
-        <a href="/admin/master/create" class="btn btn-gold btn-sm">+ Add Master</a>
+  <main class="ck-main">
+    <header class="ck-topbar">
+      <div>
+        <span class="ck-topbar-kicker">WORKSPACE / TEAM</span>
+        <h1>Our <em>masters.</em></h1>
       </div>
-    </div>
+      <div class="ck-top-actions">
+        <span class="ck-count-label"><%= masters ? masters.length : 0 %> professionals</span>
+      </div>
+    </header>
 
-    <div class="ck-content">
-      <div class="ck-panel">
-        <div class="ck-panel-head">
-          <span class="ck-panel-title">ALL MASTERS (<%= masters ? masters.length : 0 %>)</span>
+    <section class="ck-page-content">
+      <div class="ck-toolbar">
+        <div>
+          <p class="ck-section-kicker">THE CREW</p>
+          <h2>Craft is a team sport.</h2>
         </div>
-        <table class="ck-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>NAME</th>
-              <th>PHONE</th>
-              <th>SPECIALTY</th>
-              <th>EXPERIENCE</th>
-              <th>POINTS</th>
-              <th>STATUS</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (masters && masters.length > 0) { %>
-              <% masters.forEach((m, i) => { %>
-                <tr>
-                  <td class="td-muted"><%= i + 1 %></td>
-                  <td class="td-name"><%= m.memberNick %></td>
-                  <td class="td-muted"><%= m.memberPhone %></td>
-                  <td class="td-muted"><%= m.memberSpecialty %></td>
-                  <td class="td-muted"><%= m.memberExperience %></td>
-                  <td class="td-gold"><%= m.memberPoints %></td>
-                  <td>
-                    <select class="ck-select master-status" id="<%= m._id %>">
-                      <option value="ACTIVE" <%= m.memberStatus === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
-                      <option value="BLOCK"  <%= m.memberStatus === 'BLOCK'  ? 'selected' : '' %>>BLOCK</option>
-                      <option value="DELETE" <%= m.memberStatus === 'DELETE' ? 'selected' : '' %>>DELETE</option>
-                    </select>
-                  </td>
-                  <td>
-                    <a href="/admin/master/<%= m._id %>/edit" class="btn btn-ghost btn-sm">Edit</a>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="8" class="ck-empty">
-                  No masters yet —
-                  <a href="/admin/master/create" style="color:var(--gold)">Add your first master</a>
-                </td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
+        <input id="masterSearch" class="ck-search" type="search" placeholder="Search master..." />
       </div>
-    </div>
-  </div>
+
+      <div class="ck-master-grid">
+        <% if (masters && masters.length) { %>
+          <% masters.forEach((m, i) => { %>
+            <article class="ck-master-card" data-search="<%= String(m.memberNick || '').toLowerCase() %> <%= String(m.memberSpecialty || '').toLowerCase() %>">
+              <div class="ck-master-card-top">
+                <span class="ck-service-number">0<%= i + 1 %></span>
+                <span class="ck-badge <%= String(m.memberStatus || '').toLowerCase() %>"><%= m.memberStatus %></span>
+              </div>
+              <div class="ck-master-profile">
+                <div class="ck-master-large-avatar">
+                  <% if (m.memberImage) { %><img src="/<%= m.memberImage %>" alt="<%= m.memberNick %>" /><% } else { %><span><%= m.memberNick ? m.memberNick.charAt(0).toUpperCase() : 'M' %></span><% } %>
+                </div>
+                <div>
+                  <span class="ck-service-category">MASTER BARBER</span>
+                  <h3><%= m.memberNick %></h3>
+                  <p><%= m.memberSpecialty || 'Classic barbering' %></p>
+                </div>
+              </div>
+              <div class="ck-master-meta">
+                <div><small>EXPERIENCE</small><strong><%= m.memberExperience || '—' %></strong></div>
+                <div><small>POINTS</small><strong><%= m.memberPoints || 0 %></strong></div>
+              </div>
+            </article>
+          <% }) %>
+        <% } else { %>
+          <div class="ck-service-empty">
+            <span>✦</span>
+            <h3>No masters yet.</h3>
+            <p>Your team will appear here once you add professionals.</p>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
-document.querySelectorAll('.master-status').forEach(sel => {
-  sel.addEventListener('change', function() {
-    const id = this.id;
-    const status = this.value;
-    fetch('/admin/master/edit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ _id: id, memberStatus: status })
+  document.getElementById('masterSearch')?.addEventListener('input', e => {
+    const q = e.target.value.toLowerCase().trim();
+    document.querySelectorAll('.ck-master-card').forEach(card => {
+      card.style.display = card.dataset.search.includes(q) ? '' : 'none';
     });
   });
-});
 </script>
 
 </body>

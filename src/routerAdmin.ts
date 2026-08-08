@@ -2,12 +2,12 @@ import express from "express";
 const routerAdmin = express.Router();
 import barberController from "./controllers/barber.controller";
 import makeUploader from "./libs/utils/uploader";
+import serviceController from "./controllers/service.controller";
 
 /** Barber admin */
 
 routerAdmin.get('/', barberController.goHome);
 routerAdmin.get('/dashboard', barberController.getDashboard);
-routerAdmin.get('/service/all', barberController.getServices);
 routerAdmin.get('/user/all', barberController.getUsers);
 routerAdmin.get('/master/all', barberController.getMasters);
 
@@ -29,18 +29,18 @@ routerAdmin
 /** Services */
 routerAdmin
     .get('/services/all',
-        barberController.veryfyRestaurant, // MD oraliq mantiq
-        barberController.getAllServices
+        barberController.veryfyBarbershop, // MD oraliq mantiq
+        serviceController.getAllServices
     );
 routerAdmin
-    .post('/service/create',
-        barberController.veryfyRestaurant,
-        makeUploader("services").array("serviceImages", 5),
-        barberController.createNewService,
+    .post('/services/create',
+        barberController.veryfyBarbershop,
+        makeUploader("cutting-services").array("servicesImages", 5),
+        serviceController.createNewService,
     );
 routerAdmin.post('/services/:id',
-    barberController.veryfyRestaurant,
-    barberController.updateChosenService,
+    barberController.veryfyBarbershop,
+    serviceController.updateChosenService,
 );
 
 /** User */

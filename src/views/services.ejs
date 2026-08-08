@@ -1,81 +1,93 @@
-<%- include('./includes/head', { pageTitle: 'Services' }) %>
+<%- include('./includes/head', { pageTitle: 'Services', pageStyle: 'services' }) %>
 
-<div class="ck-wrap">
+<div class="ck-app">
   <%- include('./includes/sidebar', { page: 'services', member }) %>
 
-  <div class="ck-main">
-    <div class="ck-topbar">
-      <span class="ck-page-title">SERVICES</span>
-      <div class="ck-topbar-right">
-        <a href="/admin/service/create" class="btn btn-gold btn-sm">+ New Service</a>
+  <main class="ck-main">
+    <header class="ck-topbar">
+      <div>
+        <span class="ck-topbar-kicker">WORKSPACE / CATALOG</span>
+        <h1>Services <em>library.</em></h1>
       </div>
-    </div>
+      <div class="ck-top-actions">
+        <span class="ck-count-label"><%= services ? services.length : 0 %> services</span>
+        <a href="/admin/services/create" class="ck-primary-btn ck-small-btn">+ New service</a>
+      </div>
+    </header>
 
-    <div class="ck-content">
-      <div class="ck-panel">
-        <div class="ck-panel-head">
-          <span class="ck-panel-title">ALL SERVICES (<%= services ? services.length : 0 %>)</span>
+    <section class="ck-page-content">
+      <div class="ck-toolbar">
+        <div>
+          <p class="ck-section-kicker">CUTKING MENU</p>
+          <h2>Every service, clearly defined.</h2>
         </div>
-        <table class="ck-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>SERVICE NAME</th>
-              <th>CATEGORY</th>
-              <th>DURATION</th>
-              <th>PRICE</th>
-              <th>STATUS</th>
-              <th>ACTION</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% if (services && services.length > 0) { %>
-              <% services.forEach((s, i) => { %>
-                <tr>
-                  <td class="td-muted"><%= i + 1 %></td>
-                  <td class="td-name"><%= s.serviceName %></td>
-                  <td class="td-muted"><%= s.serviceCollection %></td>
-                  <td class="td-muted"><%= s.serviceDuration %> min</td>
-                  <td class="td-gold">₩<%= s.servicePrice.toLocaleString() %></td>
-                  <td>
-                    <select class="ck-select service-status" id="<%= s._id %>">
-                      <option value="AVAILABLE" <%= s.serviceStatus === 'AVAILABLE' ? 'selected' : '' %>>AVAILABLE</option>
-                      <option value="SOLD_OUT"  <%= s.serviceStatus === 'SOLD_OUT'  ? 'selected' : '' %>>SOLD OUT</option>
-                      <option value="PAUSE"     <%= s.serviceStatus === 'PAUSE'     ? 'selected' : '' %>>PAUSE</option>
-                    </select>
-                  </td>
-                  <td>
-                    <a href="/admin/service/<%= s._id %>/edit" class="btn btn-ghost btn-sm">Edit</a>
-                  </td>
-                </tr>
-              <% }) %>
-            <% } else { %>
-              <tr>
-                <td colspan="7" class="ck-empty">
-                  No services yet —
-                  <a href="/admin/service/create" style="color:var(--gold)">Add your first service</a>
-                </td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
+        <div class="ck-filter-row">
+          <button class="ck-filter is-active" data-filter="ALL">All</button>
+          <button class="ck-filter" data-filter="HAIRCUT">Haircut</button>
+          <button class="ck-filter" data-filter="BEARD">Beard</button>
+          <button class="ck-filter" data-filter="PACKAGE">Package</button>
+          <input id="serviceSearch" class="ck-search" type="search" placeholder="Search service..." />
+        </div>
       </div>
-    </div>
-  </div>
+
+      <div class="ck-service-grid" id="serviceGrid">
+        <% if (services && services.length) { %>
+          <% services.forEach((s, i) => { %>
+            <article class="ck-service-card" data-category="<%= s.serviceCollection %>" data-name="<%= String(s.serviceName || '').toLowerCase() %>">
+              <div class="ck-service-card-top">
+                <span class="ck-service-number">0<%= i + 1 %></span>
+                <span class="ck-badge <%= String(s.serviceStatus || '').toLowerCase() %>"><%= s.serviceStatus %></span>
+              </div>
+              <div class="ck-service-card-main">
+                <span class="ck-service-category"><%= s.serviceCollection %></span>
+                <h3><%= s.serviceName %></h3>
+                <p><%= s.serviceDesc || 'Professional CutKing service.' %></p>
+              </div>
+              <div class="ck-service-card-bottom">
+                <div><small>DURATION</small><strong><%= s.serviceDuration %> MIN</strong></div>
+                <div><small>PRICE</small><strong class="ck-price">₩<%= Number(s.servicePrice || 0).toLocaleString() %></strong></div>
+                <a href="/admin/services/<%= s._id %>" aria-label="Edit service">↗</a>
+              </div>
+            </article>
+          <% }) %>
+        <% } else { %>
+          <div class="ck-service-empty">
+            <span>✂</span>
+            <h3>Your menu is waiting.</h3>
+            <p>Add your first CutKing service to start building the catalog.</p>
+            <a href="/admin/services/create" class="ck-primary-btn">Create first service <span>↗</span></a>
+          </div>
+        <% } %>
+      </div>
+    </section>
+  </main>
 </div>
 
 <script>
-document.querySelectorAll('.service-status').forEach(sel => {
-  sel.addEventListener('change', function() {
-    const id = this.id;
-    const status = this.value;
-    fetch('/admin/service/' + id, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ serviceStatus: status })
+(() => {
+  const cards = [...document.querySelectorAll('.ck-service-card')];
+  const buttons = [...document.querySelectorAll('.ck-filter')];
+  const search = document.getElementById('serviceSearch');
+  let category = 'ALL';
+
+  function render() {
+    const query = (search?.value || '').trim().toLowerCase();
+    cards.forEach(card => {
+      const matchCategory = category === 'ALL' || card.dataset.category === category;
+      const matchSearch = !query || card.dataset.name.includes(query);
+      card.style.display = matchCategory && matchSearch ? '' : 'none';
     });
-  });
-});
+  }
+
+  buttons.forEach(button => button.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('is-active'));
+    button.classList.add('is-active');
+    category = button.dataset.filter;
+    render();
+  }));
+
+  search?.addEventListener('input', render);
+})();
 </script>
 
 </body>
