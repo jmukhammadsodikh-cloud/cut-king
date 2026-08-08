@@ -16,10 +16,9 @@ const serviceController: T = {};
 
 serviceController.getAllServices = async (req: Request, res: Response) => {
     try {
-        console.log('getAllServices')
-        res.render("services", {
-            services: [],
-        });
+        console.log('getAllProducts')
+        const data = await cuttingService.getAllServices();
+        res.render("services", { services: data }); // ejs ga qiymat yuborish
     }
     catch (err) {
         console.log("Error, getAllServices:", err)

@@ -16,6 +16,15 @@ class CuttingService {
 
     /** BSSR============ */
 
+
+    public async getAllServices(): Promise<Service[]> { // array ichida bir qator productlarni qaytarishi kerak
+        const result = await this.serviceModel.find().exec();
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND)
+
+        return result as unknown as Service[];
+
+    }
+
     public async createNewService(input: ServceInput): Promise<Service> {
         try {
             const result = await this.serviceModel.create(input);
