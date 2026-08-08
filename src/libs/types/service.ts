@@ -24,3 +24,16 @@ export interface ServceInput {
     serviceImages?: string[];
     serviceViews?: number;
 }
+
+
+export interface ServiceUpdateInput {
+    _id: ObjectId;
+    serviceStatus?: ServiceStatus;
+    serviceCollection?: ServiceCollection;
+    serviceName?: string;
+    servicePrice?: number;
+    serviceDuration?: number;
+    serviceDesc?: string;
+    serviceImages?: string[];
+    productViews?: number;
+}

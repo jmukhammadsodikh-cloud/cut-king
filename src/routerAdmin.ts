@@ -35,7 +35,7 @@ routerAdmin
 routerAdmin
     .post('/services/create',
         barberController.veryfyBarbershop,
-        makeUploader("cutting-services").array("servicesImages", 5),
+        makeUploader("cutting-services").array("serviceImages", 5),
         serviceController.createNewService,
     );
 routerAdmin.post('/services/:id',

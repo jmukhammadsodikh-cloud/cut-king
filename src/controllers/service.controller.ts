@@ -17,8 +17,9 @@ const serviceController: T = {};
 serviceController.getAllServices = async (req: Request, res: Response) => {
     try {
         console.log('getAllServices')
-
-        res.render("services")
+        res.render("services", {
+            services: [],
+        });
     }
     catch (err) {
         console.log("Error, getAllServices:", err)
@@ -43,20 +44,25 @@ serviceController.createNewService = async (req: AdminRequest, res: Response) =>
         await cuttingService.createNewService(data)
 
         res.send(
-            `<script>alert ("${"Successfull creation"}"); window.location.replace('admin/service/all') </script>`);
+            `<script>alert ("${"Successfull creation"}"); window.location.replace('admin/services/all') </script>`);
     }
     catch (err) {
         console.log("Error, createNewService:", err)
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(
-            `<script>alert ("${message}"); window.location.replace('admin/service/all') </script>`);
+            `<script>alert ("${message}"); window.location.replace('admin/services/all') </script>`);
     }
 };
 
 serviceController.updateChosenService = async (req: Request, res: Response) => {
     try {
         console.log('updateChosenService')
+        const id = req.params.id as string;
+
+        const result = await cuttingService.updateChosenService(id, req.body);
+
+        res.status(HttpCode.OK).json({ data: result })
     }
     catch (err) {
         console.log("Error, updateChosenService:", err)

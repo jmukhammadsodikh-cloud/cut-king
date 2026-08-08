@@ -1,6 +1,7 @@
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { ServceInput, Service } from "../libs/types/service";
+import { ServceInput, Service, ServiceUpdateInput } from "../libs/types/service";
 import ServiceModel from "../schema/Service.model";
+import { shapeIntoMongooseObjectId } from "../libs/config";
 
 class CuttingService {
     private readonly serviceModel;
@@ -25,6 +26,22 @@ class CuttingService {
             console.error("Error, model:createNewService:", err)
             throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
         }
+    }
+
+    public async updateChosenService(
+        id: string,
+        input: ServiceUpdateInput
+    ): Promise<Service> {
+        id = shapeIntoMongooseObjectId(id);  // string => ObjectId
+        const result = await this.serviceModel.
+            findOneAndUpdate({ _id: id }, input, { new: true }) // update bolgan malumotni qaytaradi
+            .exec();
+        if (!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED)
+
+        return result.toJSON() as unknown as Service;
+
+
+
     }
 
 }
