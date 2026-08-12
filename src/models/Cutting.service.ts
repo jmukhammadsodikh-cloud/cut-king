@@ -49,8 +49,6 @@ class CuttingService {
 
         return result.toJSON() as unknown as Service;
 
-
-
     }
 
 }

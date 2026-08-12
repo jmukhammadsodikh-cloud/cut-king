@@ -1,47 +1,47 @@
-<%- include('./includes/head', { pageTitle: 'Login', pageStyle: 'auth' }) %>
+<%- include('includes/header') %>
+  <link rel="stylesheet" href="/css/home.css" />
 
-<main class="ck-auth-page">
-  <section class="ck-auth-visual">
-    <div class="ck-auth-visual-bg"></div>
-    <div class="ck-auth-visual-shade"></div>
-    <a href="/admin" class="ck-auth-brand"><span>✂</span> CUT<span>KING</span></a>
+  <body>
+    <div class="auth-container">
+      <div class="auth-box">
 
-    <div class="ck-auth-quote">
-      <p>“Precision behind the chair.<br /><em>Clarity behind the shop.</em>”</p>
-      <span>— CUTKING OS</span>
+        <div class="auth-logo">
+          <div class="brand">✂ CUT<span>KING</span></div>
+        </div>
+        <div class="auth-sub">Admin Panel</div>
+        <hr class="auth-divider" />
+
+        <div class="auth-title">Welcome back</div>
+        <div class="auth-caption">Sign in to manage your barbershop</div>
+
+        <% if (typeof message !=='undefined' && message) { %>
+          <div class="auth-err" style="display:block">
+            <%= message %>
+          </div>
+          <% } %>
+
+            <form action="/admin/login" method="POST">
+              <div class="ck-form-group">
+                <label class="ck-label">Barber Nick</label>
+                <input class="ck-input" type="text" name="memberNick" placeholder="cutking_official" required
+                  autocomplete="username" />
+              </div>
+              <div class="ck-form-group">
+                <label class="ck-label">Password</label>
+                <input class="ck-input" type="password" name="memberPassword" placeholder="••••••••" required
+                  autocomplete="current-password" />
+              </div>
+              <button type="submit" class="btn btn-gold btn-full" style="padding:13px;">
+                Login →
+              </button>
+            </form>
+
+            <div class="auth-foot">
+              No account? <a href="/admin/signup">Create one</a> ·
+              <a href="/admin">Home</a>
+            </div>
+      </div>
     </div>
-  </section>
+  </body>
 
-  <section class="ck-auth-form-side">
-    <div class="ck-auth-form-wrap">
-      <a href="/admin" class="ck-mobile-brand">✂ CUT<span>KING</span></a>
-      <div class="ck-auth-kicker">ADMIN ACCESS · 01</div>
-      <h1>Welcome back.</h1>
-      <p class="ck-auth-intro">Sign in to your shop workspace.</p>
-
-      <% if (typeof err !== 'undefined' && err) { %>
-        <div class="ck-auth-error"><%= err %></div>
-      <% } %>
-
-      <form action="/admin/login" method="POST" class="ck-auth-form">
-        <label>
-          <span>SHOP NICK</span>
-          <input type="text" name="memberNick" placeholder="cutking_official" autocomplete="username" required />
-        </label>
-
-        <label>
-          <span>PASSWORD</span>
-          <input type="password" name="memberPassword" placeholder="••••••••" autocomplete="current-password" required />
-        </label>
-
-        <button class="ck-primary-btn ck-full-btn" type="submit">Enter workspace <span>↗</span></button>
-      </form>
-
-      <p class="ck-auth-switch">New shop? <a href="/admin/signup">Create an account</a></p>
-      <a class="ck-back-home" href="/admin">← Back to homepage</a>
-    </div>
-  </section>
-</main>
-
-</body>
-</html>
+  <%- include('includes/footer') %>

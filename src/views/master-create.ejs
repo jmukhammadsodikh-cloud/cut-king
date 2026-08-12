@@ -1,0 +1,135 @@
+<%- include('includes/header') %>
+<link rel="stylesheet" href="/css/admin.css" />
+
+<body>
+<div class="ck-wrap">
+  <%- include('includes/sidebar', { page: 'masters', member }) %>
+
+  <div class="ck-main">
+    <div class="ck-topbar">
+      <span class="ck-page-title">New Master</span>
+      <div class="ck-topbar-right">
+        <a href="/admin/master/all" class="btn btn-ghost btn-sm">← Back to Masters</a>
+      </div>
+    </div>
+
+    <div class="ck-content">
+      <div class="ck-panel" style="max-width: 720px;">
+        <div class="ck-panel-head">
+          <span class="ck-panel-title">Master Details</span>
+        </div>
+        <div class="ck-panel-body">
+
+          <form action="/admin/master/create" method="POST" enctype="multipart/form-data">
+
+            <div class="ck-form-grid">
+
+              <div class="ck-form-group">
+                <label class="ck-label">NICKNAME</label>
+                <input class="ck-input" type="text" name="memberNick" placeholder="John Doe" required />
+              </div>
+
+              <div class="ck-form-group">
+                <label class="ck-label">PHONE</label>
+                <input class="ck-input" type="text" name="memberPhone" placeholder="010-1234-5678" required />
+              </div>
+
+              <div class="ck-form-group">
+                <label class="ck-label">PASSWORD</label>
+                <input class="ck-input" type="password" name="memberPassword" placeholder="••••••••" required />
+              </div>
+
+              <div class="ck-form-group">
+                <label class="ck-label">ADDRESS</label>
+                <input class="ck-input" type="text" name="memberAddress" placeholder="Seoul, Gangnam-gu" />
+              </div>
+
+              <div class="ck-form-group">
+                <label class="ck-label">SPECIALTY</label>
+                <select class="ck-input ck-select" name="memberSpecialty" style="cursor:pointer;">
+                  <option value="FADE">FADE</option>
+                  <option value="CLASSIC" selected>CLASSIC</option>
+                  <option value="PERM">PERM</option>
+                  <option value="COLOR">COLOR</option>
+                  <option value="BLEACH">BLEACH</option>
+                  <option value="SCISSOR_CUT">SCISSOR CUT</option>
+                  <option value="BUZZ_CUT">BUZZ CUT</option>
+                  <option value="BEARD">BEARD</option>
+                  <option value="KIDS_CUT">KIDS CUT</option>
+                  <option value="STYLING">STYLING</option>
+                </select>
+              </div>
+
+              <div class="ck-form-group">
+                <label class="ck-label">EXPERIENCE</label>
+                <select class="ck-input ck-select" name="memberExperience" style="cursor:pointer;">
+                  <option value="0-1 YEARS" selected>0-1 YEARS</option>
+                  <option value="2-4 YEARS">2-4 YEARS</option>
+                  <option value="5-9 YEARS">5-9 YEARS</option>
+                  <option value="10+ YEARS">10+ YEARS</option>
+                </select>
+              </div>
+
+              <div class="ck-form-group ck-form-full">
+                <label class="ck-label">DESCRIPTION</label>
+                <textarea class="ck-input" name="memberDesc" rows="3" placeholder="Short bio about this master..." style="resize:vertical;"></textarea>
+              </div>
+
+              <div class="ck-form-group ck-form-full">
+                <label class="ck-label">MASTER PHOTO</label>
+                <label class="ck-upload-tile round">
+                  <input type="file" name="memberImage" accept="image/jpg,image/jpeg,image/png" onchange="ckPreview(this)" />
+                  <img class="ck-upload-preview" alt="" />
+                  <span class="ck-upload-remove" onclick="ckRemove(event, this)">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </span>
+                  <div class="ck-upload-empty">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    <span>Photo</span>
+                  </div>
+                </label>
+                <p class="ck-upload-hint">JPG, JPEG, PNG</p>
+              </div>
+
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:8px;">
+              <button type="submit" class="btn btn-gold" style="padding:12px 28px;">CREATE MASTER</button>
+              <a href="/admin/master/all" class="btn btn-ghost" style="padding:12px 28px;">CANCEL</a>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function ckPreview(input) {
+    const tile = input.closest('.ck-upload-tile');
+    const img = tile.querySelector('.ck-upload-preview');
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        img.src = e.target.result;
+        img.style.display = 'block';
+        tile.classList.add('has-image');
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+  function ckRemove(e, btn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const tile = btn.closest('.ck-upload-tile');
+    tile.querySelector('input[type="file"]').value = '';
+    const img = tile.querySelector('.ck-upload-preview');
+    img.src = '';
+    img.style.display = 'none';
+    tile.classList.remove('has-image');
+  }
+</script>
+</body>
+<%- include('includes/footer') %>

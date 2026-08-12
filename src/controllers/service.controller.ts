@@ -14,16 +14,28 @@ const serviceController: T = {};
 
 /** BSSR============ */
 
-serviceController.getAllServices = async (req: Request, res: Response) => {
+serviceController.getAllServices = async (req: AdminRequest, res: Response) => {
     try {
-        console.log('getAllProducts')
+        console.log('getAllServices')
         const data = await cuttingService.getAllServices();
-        res.render("services", { services: data }); // ejs ga qiymat yuborish
+
+        res.render("services", {
+            services: data,
+            member: (req as AdminRequest).member
+        });
     }
     catch (err) {
         console.log("Error, getAllServices:", err)
         if (err instanceof Errors) res.status(err.code).json(err)
         else res.status(Errors.standard.code).json(Errors.standard);
+    }
+};
+
+serviceController.getServiceCreate = (req: AdminRequest, res: Response) => {
+    try {
+        res.render("service-create", { member: req.session.member });
+    } catch (err) {
+        console.log(err);
     }
 };
 
@@ -43,14 +55,14 @@ serviceController.createNewService = async (req: AdminRequest, res: Response) =>
         await cuttingService.createNewService(data)
 
         res.send(
-            `<script>alert ("${"Successfull creation"}"); window.location.replace('admin/services/all') </script>`);
+            `<script>alert ("${"Successfull creation"}"); window.location.replace('/admin/services/all') </script>`);
     }
     catch (err) {
         console.log("Error, createNewService:", err)
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(
-            `<script>alert ("${message}"); window.location.replace('admin/services/all') </script>`);
+            `<script>alert ("${message}"); window.location.replace('/admin/services/all') </script>`);
     }
 };
 

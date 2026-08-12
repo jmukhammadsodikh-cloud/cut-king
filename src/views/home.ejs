@@ -1,66 +1,105 @@
-<%- include('./includes/head', { pageTitle: 'Home', pageStyle: 'home' }) %>
+<%- include('includes/header') %>
+  <link rel="stylesheet" href="/css/home.css" />
 
-<main class="ck-public-home">
-  <div class="ck-home-image" aria-hidden="true"></div>
-  <div class="ck-home-shade" aria-hidden="true"></div>
-
-  <nav class="ck-public-nav">
-    <a href="/admin" class="ck-public-brand">
-      <span class="ck-scissor">✂</span>
-      <span>CUT<span>KING</span></span>
-    </a>
-
-    <div class="ck-public-links">
-      <a href="/admin" class="is-current">Home</a>
-      <a href="/admin/signup">Sign up</a>
-      <a href="/admin/login" class="ck-public-login">Log in <span>↗</span></a>
-    </div>
-  </nav>
-
-  <section class="ck-home-hero">
-    <div class="ck-hero-copy">
-      <p class="ck-eyebrow"><span></span> SEOUL · PREMIUM BARBERSHOP</p>
-
-      <h1>
-        CRAFT THE CUT.<br />
-        <em>RUN THE SHOP.</em>
-      </h1>
-
-      <p class="ck-hero-text">
-        A clean command center for modern barbershops —
-        services, masters and clients in one focused workspace.
-      </p>
-
-      <div class="ck-home-actions">
-        <a href="/admin/login" class="ck-primary-btn">Open dashboard <span>↗</span></a>
-        <a href="/admin/signup" class="ck-quiet-btn">Create shop account</a>
-      </div>
-    </div>
-
-    <div class="ck-home-side">
-      <div class="ck-side-note">
-        <span class="ck-side-line"></span>
-        <span>BUILT FOR THE CHAIR</span>
-      </div>
-
-      <div class="ck-home-card">
-        <div class="ck-home-card-top">
-          <span>01 / CONTROL</span>
-          <span>2026</span>
+  <body>
+    <div class="home-container">
+      <nav class="home-nav">
+        <div class="logo">
+          <span class="logo-chip">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="3" />
+              <circle cx="6" cy="18" r="3" />
+              <line x1="20" y1="4" x2="8.12" y2="15.88" />
+              <line x1="14.47" y1="14.48" x2="20" y2="20" />
+              <line x1="8.12" y1="8.12" x2="12" y2="12" />
+            </svg>
+          </span>
+          CUT<span>KING</span>
         </div>
-        <strong>Everything<br />in one place.</strong>
-        <p>Manage the details behind every great cut.</p>
-      </div>
+        <div class="nav-links">
+          <a href="/admin" class="nav-link active">Home</a>
+          <% if (!member) { %>
+            <a href="/admin/signup" class="nav-link">Sign up</a>
+            <a href="/admin/login" class="nav-link btn">Login</a>
+            <% } else { %>
+              <a href="/admin/services/all" class="nav-link">Services</a>
+              <a href="/admin/user/all" class="nav-link">Users</a>
+              <a href="/admin/logout" class="nav-link" onclick="return confirm('Logout?')">Logout</a>
+              <% } %>
+        </div>
+      </nav>
+
+      <section class="hero-section">
+        <div class="hero-card">
+          <span class="hero-eyebrow">CutKing · Admin</span>
+
+          <h1 class="hero-title">
+            Manage your barbershop,<br>
+            <span class="accent">beautifully simple.</span>
+          </h1>
+
+          <p class="hero-desc">
+            One clean dashboard for services, master barbers and clients —
+            everything your shop needs, nothing it doesn't.
+          </p>
+
+          <div class="hero-btns">
+            <% if (!member) { %>
+              <a href="/admin/login" class="btn btn-gold btn-lg">Sign In</a>
+              <a href="/admin/signup" class="btn btn-outline btn-lg">Create Account</a>
+              <% } else { %>
+                <a href="/admin/services/all" class="btn btn-gold btn-lg">Open Admin Panel</a>
+                <% } %>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <a href="<%= member ? '/admin/services/all' : '/admin/login' %>" class="feature-card c1">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="6" cy="6" r="3" />
+                <circle cx="6" cy="18" r="3" />
+                <line x1="20" y1="4" x2="8.12" y2="15.88" />
+                <line x1="14.47" y1="14.48" x2="20" y2="20" />
+                <line x1="8.12" y1="8.12" x2="12" y2="12" />
+              </svg>
+            </div>
+            <div class="feature-title">Services</div>
+            <div class="feature-desc">Haircuts, pricing, duration and category — kept in sync in one list.</div>
+            <div class="feature-arrow">Manage services →</div>
+          </a>
+
+          <a href="<%= member ? '/admin/master/all' : '/admin/login' %>" class="feature-card c2">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2l2.9 6.26L21 9.27l-4.5 4.39L17.8 21 12 17.77 6.2 21l1.3-7.34L3 9.27l6.1-1.01L12 2z" />
+              </svg>
+            </div>
+            <div class="feature-title">Masters</div>
+            <div class="feature-desc">Your barbers, their specialty and experience, all in one roster.</div>
+            <div class="feature-arrow">Manage masters →</div>
+          </a>
+
+          <a href="<%= member ? '/admin/user/all' : '/admin/login' %>" class="feature-card c3">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2" />
+                <circle cx="10" cy="7" r="4" />
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+            </div>
+            <div class="feature-title">Users</div>
+            <div class="feature-desc">Every client who's booked with you, their status and history.</div>
+            <div class="feature-arrow">View users →</div>
+          </a>
+        </div>
+      </section>
     </div>
-  </section>
+  </body>
 
-  <footer class="ck-public-footer">
-    <div><strong>01</strong> SERVICES</div>
-    <div><strong>02</strong> MASTERS</div>
-    <div><strong>03</strong> CLIENTS</div>
-    <div class="ck-footer-location">SEOUL, SOUTH KOREA · CUTKING</div>
-  </footer>
-</main>
-
-</body>
-</html>
+  <%- include('includes/footer') %>

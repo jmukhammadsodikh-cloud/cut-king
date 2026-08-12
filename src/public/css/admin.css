@@ -1,126 +1,615 @@
-.ck-home {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
+/* ================================================
+   CUTKING — ADMIN.CSS  (dashboard + panels — Bright theme)
+   ================================================ */
 
-.ck-home-bg {
-  position: absolute;
-  inset: 0;
-
-  background-image: url("/img/barbershop2.jpg");
-  background-size: cover;
-  background-position: center;
-
-  transform: scale(1.05);
-}
-
-.ck-home-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, .68);
-}
-
-.ck-pub-nav {
-  position: relative;
-  z-index: 20;
-
+/* ---- LAYOUT ---- */
+.ck-wrap {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 30px 80px;
+  min-height: 100vh;
+  background: var(--light);
 }
 
-.ck-pub-logo {
-  font-size: 34px;
-  font-weight: 900;
-  color: white;
-  text-decoration: none;
-}
-
-.ck-pub-logo span {
-  color: #D4AF37;
-}
-
-.ck-pub-links {
-  display: flex;
-  gap: 35px;
-}
-
-.ck-pub-link {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.ck-hero {
-  position: relative;
-  z-index: 10;
-
-  height: calc(100vh - 100px);
-
+.ck-main {
+  margin-left: 252px;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+/* ---- SIDEBAR (light, coral accent — no dark background) ---- */
+.ck-sidebar {
+  width: 252px;
+  background: var(--white);
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--light2);
+}
+
+.ck-logo-area {
+  padding: 26px 22px 22px;
+  border-bottom: 1px solid var(--light2);
+}
+
+.ck-logo-brand {
+  font-family: var(--f-head);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--dark);
+  letter-spacing: .5px;
+  display: flex;
   align-items: center;
-
-  text-align: center;
-
-  color: white;
+  gap: 8px;
 }
 
-.ck-hero-tag {
-  color: #D4AF37;
-  letter-spacing: 5px;
+.ck-logo-brand .ck-logo-mark {
+  color: var(--white);
+  background: var(--coral);
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ck-logo-brand span:not(.ck-logo-mark) {
+  color: var(--coral);
+}
+
+.ck-logo-tag {
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.ck-nav {
+  flex: 1;
+  padding: 18px 0;
+  overflow-y: auto;
+}
+
+.ck-nav-group-label {
+  padding: 4px 22px 10px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #C4BFB6;
+  text-transform: uppercase;
+}
+
+.ck-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  margin: 3px 12px;
+  color: var(--dark2);
+  font-size: 13.5px;
+  font-weight: 600;
+  transition: all var(--tr);
+  border-radius: var(--r);
+}
+
+.ck-nav-link:hover {
+  background: var(--light3);
+}
+
+.ck-nav-link.active {
+  background: var(--coral);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(255, 90, 90, .30);
+}
+
+.ck-nav-link .nav-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--light3);
+  color: var(--muted);
+  transition: all var(--tr);
+}
+
+.ck-nav-link:hover .nav-icon {
+  background: var(--white);
+  color: var(--dark);
+}
+
+.ck-nav-link.active .nav-icon {
+  background: rgba(255, 255, 255, .22);
+  color: var(--white);
+}
+
+.ck-nav-link .nav-icon svg {
+  display: block;
+}
+
+.ck-nav-link .nav-label {
+  flex: 1;
+}
+
+.ck-sidebar-foot {
+  padding: 14px 16px;
+  border-top: 1px solid var(--light2);
+}
+
+.ck-foot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ck-foot-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ck-foot-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--coral);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-family: var(--f-head);
   font-size: 14px;
-  margin-bottom: 25px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
-.ck-hero-title {
-  font-size: 82px;
-  font-weight: 900;
-  line-height: 1.05;
+.ck-foot-nick {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.ck-hero-title span {
-  color: #D4AF37;
+.ck-foot-role {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 1px;
 }
 
-.ck-hero-desc {
-  width: 700px;
-  max-width: 90%;
-  margin: 30px 0;
-  color: #d8d8d8;
-  line-height: 1.8;
+.ck-logout-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  background: var(--light3);
+  flex-shrink: 0;
+  transition: all var(--tr);
+}
+
+.ck-logout-btn:hover {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+/* ---- TOPBAR ---- */
+.ck-topbar {
+  background: var(--white);
+  border-bottom: 1px solid var(--light2);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.ck-page-title {
+  font-family: var(--f-head);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dark);
+}
+
+.ck-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ck-greeting {
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: 8px;
+}
+
+.ck-greeting strong {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* ---- CONTENT ---- */
+.ck-content {
+  padding: 24px 28px;
+  flex: 1;
+}
+
+/* ---- STAT CARDS ---- */
+.ck-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--light2);
+  border-radius: var(--r-lg);
+  padding: 20px 20px 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--sh-sm);
+  transition: transform var(--tr), box-shadow var(--tr);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sh);
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.stat-card.c-gold::after {
+  background: var(--coral);
+}
+
+.stat-card.c-green::after {
+  background: var(--green);
+}
+
+.stat-card.c-blue::after {
+  background: var(--blue);
+}
+
+.stat-card.c-red::after {
+  background: var(--gold);
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--r);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 18px;
+  margin-bottom: 14px;
 }
 
-.ck-hero-buttons {
+.stat-card.c-gold .stat-icon {
+  color: var(--coral);
+  background: var(--coral-bg);
+}
+
+.stat-card.c-green .stat-icon {
+  color: var(--green);
+  background: var(--green-bg);
+}
+
+.stat-card.c-blue .stat-icon {
+  color: var(--blue);
+  background: var(--blue-bg);
+}
+
+.stat-card.c-red .stat-icon {
+  color: var(--gold);
+  background: var(--gold-bg);
+}
+
+.stat-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.stat-val {
+  font-family: var(--f-head);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.stat-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ---- PANELS ---- */
+.ck-panel {
+  background: var(--white);
+  border: 1px solid var(--light2);
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-sm);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.ck-panel-head {
   display: flex;
-  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--light2);
+  background: var(--light3);
 }
 
-.btn-outline {
-  border: 2px solid #D4AF37;
-  color: #D4AF37;
-  padding: 14px 34px;
-  border-radius: 8px;
-  text-decoration: none;
+.ck-panel-title {
+  font-family: var(--f-head);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--dark);
 }
 
-.ck-hero-stats {
-  margin-top: 90px;
+.ck-panel-body {
+  padding: 22px;
+}
 
+.ck-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+/* ---- FILTER BAR ---- */
+.ck-filter-bar {
   display: flex;
-  gap: 90px;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--light2);
+  background: var(--white);
+  flex-wrap: wrap;
 }
 
-.ck-hero-stats h2 {
-  font-size: 38px;
-  color: #D4AF37;
+.ck-filter-bar .ck-select,
+.ck-filter-bar .ck-input {
+  width: auto;
+  min-width: 140px;
 }
 
-.ck-hero-stats span {
-  color: #ddd;
+.ck-filter-bar .ck-search {
+  flex: 1;
+  min-width: 200px;
+}
+
+.ck-filter-bar .btn {
+  flex-shrink: 0;
+}
+
+/* ---- TABLE ---- */
+.ck-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ck-table th {
+  padding: 15px 20px;
+  text-align: left;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  color: rgba(255, 255, 255, .65);
+  background: var(--dark);
+  border-bottom: 1px solid var(--dark);
+  text-transform: uppercase;
+}
+
+.ck-table th:first-child {
+  border-top-left-radius: 0;
+}
+
+.ck-table th.num,
+.ck-table td.num { text-align: right; }
+
+.ck-table th.center,
+.ck-table td.center { text-align: center; }
+
+.ck-table td {
+  padding: 17px 20px;
+  font-size: 14.5px;
+  color: var(--dark);
+  border-bottom: 1px solid var(--light2);
+  vertical-align: middle;
+}
+
+.ck-table tr:last-child td {
+  border: none;
+}
+
+.ck-table tbody tr {
+  transition: background var(--tr);
+}
+
+.ck-table tbody tr:hover td {
+  background: var(--coral-bg);
+}
+
+.td-name {
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.td-muted {
+  color: var(--muted);
+  font-size: 13.5px;
+}
+
+.td-gold {
+  font-family: var(--f-mono);
+  font-size: 14.5px;
+  color: var(--gold-hover);
+  font-weight: 700;
+}
+
+/* Empty */
+.ck-empty {
+  text-align: center;
+  padding: 44px 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.ck-empty a {
+  color: var(--coral);
+  font-weight: 700;
+}
+
+/* ---- SERVICE / MASTER CREATE FORM ---- */
+.ck-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.ck-form-full {
+  grid-column: 1 / -1;
+}
+
+/* ---- FORM ACTIONS ---- */
+.ck-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ---- IMAGE UPLOAD TILES (with live preview) ---- */
+.ck-upload-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.ck-upload-tile {
+  position: relative;
+  width: 108px;
+  height: 108px;
+  border-radius: var(--r-lg);
+  border: 2px dashed var(--coral-line);
+  background: var(--light3);
+  cursor: pointer;
+  overflow: hidden;
+  transition: all var(--tr);
+  flex-shrink: 0;
+}
+
+.ck-upload-tile:hover {
+  border-color: var(--coral);
+  background: var(--coral-bg);
+}
+
+.ck-upload-tile.has-image {
+  border-style: solid;
+  border-color: var(--coral-line);
+  background: var(--white);
+}
+
+.ck-upload-tile input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ck-upload-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  color: var(--coral);
+  pointer-events: none;
+}
+
+.ck-upload-empty span {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.ck-upload-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.ck-upload-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(28, 27, 26, .72);
+  color: var(--white);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: background var(--tr);
+}
+
+.ck-upload-tile.has-image .ck-upload-remove {
+  display: flex;
+}
+
+.ck-upload-remove:hover {
+  background: var(--red);
+}
+
+.ck-upload-tile.has-image .ck-upload-empty {
+  display: none;
+}
+
+.ck-upload-tile.round {
+  border-radius: 50%;
+}
+
+.ck-upload-hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
 }

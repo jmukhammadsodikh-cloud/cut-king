@@ -1,9 +1,7 @@
 export enum ServiceStatus {
-    ACTIVE = "ACTIVE",             // Xizmat faol
-    BOOKED = "BOOKED",             // Shu vaqt band
-    COMING_SOON = "COMING_SOON",   // Tez orada qo'shiladi
-    PAUSED = "PAUSED",             // Vaqtincha to'xtatilgan
-    DISCONTINUED = "DISCONTINUED", // Butunlay olib tashlangan
+    PROCESS = "PROCESS",   // aktiv, ishlayapti
+    PAUSE = "PAUSE",     // vaqtincha to'xtatilgan
+    DELETE = "DELETE",    // o'chirilgan
 }
 export enum ServiceCollection {
     SIGNATURE = "SIGNATURE",       // Eng mashhur xizmatlar

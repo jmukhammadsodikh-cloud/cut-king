@@ -1,81 +1,107 @@
-<%- include('./includes/head', { pageTitle: 'Clients', pageStyle: 'users' }) %>
+<%- include('includes/header') %>
+  <link rel="stylesheet" href="/css/admin.css" />
 
-<div class="ck-app">
-  <%- include('./includes/sidebar', { page: 'users', member }) %>
+  <body>
+    <div class="ck-wrap">
+      <%- include('includes/sidebar', { page: 'users' , member }) %>
 
-  <main class="ck-main">
-    <header class="ck-topbar">
-      <div>
-        <span class="ck-topbar-kicker">WORKSPACE / PEOPLE</span>
-        <h1>Client <em>directory.</em></h1>
-      </div>
-      <div class="ck-top-actions">
-        <span class="ck-count-label"><%= users ? users.length : 0 %> clients</span>
-      </div>
-    </header>
+        <div class="ck-main">
+          <div class="ck-topbar">
+            <span class="ck-page-title">Users</span>
+            <div class="ck-topbar-right">
+              <span class="ck-greeting">Total: <strong>
+                  <%= users ? users.length : 0 %>
+                </strong> clients</span>
+            </div>
+          </div>
 
-    <section class="ck-page-content">
-      <div class="ck-toolbar ck-people-toolbar">
-        <div>
-          <p class="ck-section-kicker">CLIENTS</p>
-          <h2>Know who sits in your chair.</h2>
-        </div>
-        <input id="userSearch" class="ck-search" type="search" placeholder="Search by name or phone..." />
-      </div>
+          <div class="ck-content">
+            <div class="ck-panel">
+              <div class="ck-panel-head">
+                <span class="ck-panel-title">All Users</span>
+              </div>
 
-      <section class="ck-dashboard-panel">
-        <div class="ck-table-wrap">
-          <table class="ck-table ck-people-table" id="usersTable">
-            <thead>
-              <tr><th>#</th><th>CLIENT</th><th>PHONE</th><th>POINTS</th><th>JOINED</th><th>STATUS</th><th></th></tr>
-            </thead>
-            <tbody>
-              <% if (users && users.length) { %>
-                <% users.forEach((u, i) => { %>
-                  <tr data-search="<%= String(u.memberNick || '').toLowerCase() %> <%= String(u.memberPhone || '').toLowerCase() %>">
-                    <td><span class="ck-row-index"><%= String(i + 1).padStart(2, '0') %></span></td>
-                    <td><div class="ck-person-cell"><span class="ck-person-avatar"><%= u.memberNick ? u.memberNick.charAt(0).toUpperCase() : 'U' %></span><strong><%= u.memberNick %></strong></div></td>
-                    <td class="ck-muted"><%= u.memberPhone %></td>
-                    <td class="ck-price"><%= u.memberPoints || 0 %> pts</td>
-                    <td class="ck-muted"><%= u.createdAt ? new Date(u.createdAt).toLocaleDateString('en-KR') : '—' %></td>
-                    <td><span class="ck-badge <%= String(u.memberStatus || '').toLowerCase() %>"><%= u.memberStatus %></span></td>
-                    <td><select class="ck-status-select user-status" id="<%= u._id %>"><option value="ACTIVE" <%= u.memberStatus === 'ACTIVE' ? 'selected' : '' %>>Active</option><option value="BLOCK" <%= u.memberStatus === 'BLOCK' ? 'selected' : '' %>>Blocked</option><option value="DELETE" <%= u.memberStatus === 'DELETE' ? 'selected' : '' %>>Deleted</option></select></td>
+              <div class="ck-filter-bar">
+                <select class="ck-select" id="filterStatus">
+                  <option value="">All statuses</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="BLOCK">BLOCK</option>
+                  <option value="DELETE">DELETE</option>
+                </select>
+                <input class="ck-input ck-search" id="filterSearch" type="text" placeholder="Search by nickname…" />
+              </div>
+
+              <table class="ck-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Nick</th>
+                    <th>Phone</th>
+                    <th class="num">Points</th>
+                    <th>Joined</th>
+                    <th class="center">Status</th>
                   </tr>
-                <% }) %>
-              <% } else { %>
-                <tr><td colspan="7" class="ck-empty-cell">No clients registered yet.</td></tr>
-              <% } %>
-            </tbody>
-          </table>
+                </thead>
+                <tbody id="usersTbody">
+                  <% if (users && users.length> 0) { %>
+                    <% users.forEach((u, i)=> { %>
+                      <tr data-status="<%= u.memberStatus %>" data-name="<%= u.memberNick.toLowerCase() %>">
+                        <td class="td-muted">
+                          <%= i + 1 %>
+                        </td>
+                        <td class="td-name">
+                          <%= u.memberNick %>
+                        </td>
+                        <td class="td-muted">
+                          <%= u.memberPhone %>
+                        </td>
+                        <td class="td-gold num">
+                          <%= u.memberPoints %>
+                        </td>
+                        <td class="td-muted">
+                          <%= new Date(u.createdAt).toLocaleDateString('ko-KR') %>
+                        </td>
+                        <td class="center">
+                          <select class="ck-pill-select member-status st-<%= u.memberStatus.toLowerCase() %>"
+                            id="<%= u._id %>">
+                            <option value="ACTIVE" <%=u.memberStatus==='ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
+                            <option value="BLOCK" <%=u.memberStatus==='BLOCK' ? 'selected' : '' %>>BLOCK</option>
+                            <option value="DELETE" <%=u.memberStatus==='DELETE' ? 'selected' : '' %>>DELETE</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <% }) %>
+                        <% } else { %>
+                          <tr>
+                            <td colspan="6" class="ck-empty">No users registered yet</td>
+                          </tr>
+                          <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </section>
-    </section>
-  </main>
-</div>
+    </div>
 
-<script>
-  const userSearch = document.getElementById('userSearch');
-  userSearch?.addEventListener('input', e => {
-    const q = e.target.value.toLowerCase().trim();
-    document.querySelectorAll('#usersTable tbody tr[data-search]').forEach(row => {
-      row.style.display = row.dataset.search.includes(q) ? '' : 'none';
-    });
-  });
+    <script src="/js/users.js"></script>
+    <script>
+      (function () {
+        const statusSel = document.getElementById('filterStatus');
+        const searchInput = document.getElementById('filterSearch');
+        const rows = document.querySelectorAll('#usersTbody tr[data-name]');
 
-  document.querySelectorAll('.user-status').forEach(sel => {
-    sel.addEventListener('change', async function () {
-      try {
-        await fetch('/admin/user/edit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ _id: this.id, memberStatus: this.value })
-        });
-      } catch (err) {
-        console.error('Status update failed:', err);
-      }
-    });
-  });
-</script>
-
-</body>
-</html>
+        function applyFilters() {
+          const st = statusSel.value;
+          const q = searchInput.value.trim().toLowerCase();
+          rows.forEach(function (row) {
+            const matchSt = !st || row.dataset.status === st;
+            const matchQ = !q || row.dataset.name.includes(q);
+            row.style.display = (matchSt && matchQ) ? '' : 'none';
+          });
+        }
+        statusSel && statusSel.addEventListener('change', applyFilters);
+        searchInput && searchInput.addEventListener('input', applyFilters);
+      })();
+    </script>
+  </body>
+  <%- include('includes/footer') %>

@@ -4,6 +4,7 @@ import MemberService from "../models/Member.service";
 import { AdminRequest, LoginInput, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import Errors, { HttpCode, Message } from "../libs/Errors";
+
 const barberController: T = {};
 const memberService = new MemberService();
 
@@ -68,7 +69,7 @@ barberController.processSignup = async (req: AdminRequest, res: Response) => {
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(
-            `<script>alert ("${message}"); window.location.replace('admin/signup') </script>`);
+            `<script>alert ("${message}"); window.location.replace('/admin/signup') </script>`);
 
     }
 };
@@ -93,7 +94,7 @@ barberController.processLogin = async (req: AdminRequest, res: Response) => {
         const message =
             err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
         res.send(
-            `<script>alert ("${message}"); window.location.replace('admin/login') </script>`);
+            `<script>alert ("${message}"); window.location.replace('/admin/login') </script>`);
     }
 };
 
@@ -138,9 +139,50 @@ barberController.veryfyBarbershop = (
         next();
     } else {
         const message = Message.NOT_AUTHENTICATED;
-        res.send(
-            `<script>alert("${message}"); window.location.replace('/admin/login);</script>`
-        );
+
+        // AJAX/API so'rovlar (masalan status-select fetch/axios) uchun JSON qaytaramiz,
+        // aks holda frontend "muvaffaqiyatsiz" deb hato tashxis qo'yadi.
+        const wantsJson =
+            req.xhr ||
+            req.headers.accept?.includes("application/json") ||
+            req.headers["content-type"]?.includes("application/json");
+
+        if (wantsJson) {
+            res.status(HttpCode.UNAUTHORIZED).json({
+                code: HttpCode.UNAUTHORIZED,
+                message,
+            });
+        } else {
+            res.send(
+                `<script>alert("${message}"); window.location.replace('/admin/login');</script>`
+            );
+        }
+    }
+}
+
+barberController.getUsers = async (req: Request, res: Response) => {
+    try {
+        console.log('getUsers')
+        const result = await memberService.getUsers();
+        console.log("result:", result)
+
+        res.render("users", { users: result });
+    }
+    catch (err) { console.log(err) }
+}
+
+
+barberController.updateChosenUser = async (req: Request, res: Response) => {
+    try {
+        console.log('updateChosenUser')
+        const result = await memberService.updateChosenUser(req.body);
+
+        res.status(HttpCode.OK).json({ data: result });
+    }
+    catch (err) {
+        console.log("Error, signup:", err)
+        if (err instanceof Errors) res.status(err.code).json(err)
+        else res.status(Errors.standard.code).json(Errors.standard);
     }
 };
 
@@ -158,25 +200,6 @@ barberController.getDashboard = (req: Request, res: Response) => {
     catch (err) { console.log(err) }
 };
 
-barberController.getUsers = (req: Request, res: Response) => {
-    try {
-        res.render("users", {
-            member: { memberNick: "CutKing" },
-            users: []
-        });
-    }
-    catch (err) { console.log(err) }
-};
-
-barberController.getMasters = (req: Request, res: Response) => {
-    try {
-        res.render("masters", {
-            member: { memberNick: "CutKing" },
-            masters: []
-        });
-    }
-    catch (err) { console.log(err) }
-};
 
 
 export default barberController;

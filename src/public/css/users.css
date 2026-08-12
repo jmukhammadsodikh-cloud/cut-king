@@ -1,8 +1,0 @@
-
-.ck-people-toolbar { align-items: end; }
-.ck-people-table td { padding-top: 16px; padding-bottom: 16px; }
-.ck-row-index { color: var(--muted-2); font-size: 10px; }
-.ck-person-cell { display: flex; align-items: center; gap: 10px; }
-.ck-person-avatar { width: 31px; height: 31px; display: grid; place-items: center; background: #ece8df; color: var(--gold-dark); font-size: 10px; font-weight: 800; }
-.ck-person-cell strong { font-size: 12px; }
-.ck-status-select { border: 0; background: transparent; color: var(--muted); font-size: 10px; outline: none; }

@@ -6,9 +6,8 @@ const serviceSchema = new Schema(
         serviceStatus: {
             type: String,
             enum: ServiceStatus,
-            default: ServiceStatus.PAUSED,
+            default: ServiceStatus.PAUSE,  // ← yangi service PROCESS bo'ladi
         },
-
         serviceCollection: {
             type: String,
             enum: ServiceCollection,
@@ -49,9 +48,5 @@ const serviceSchema = new Schema(
     },
     { timestamps: true }
 );
-
-serviceSchema.index(
-    { serviceName: 1, serviceDuration: 1 },
-    { unique: true })
 
 export default mongoose.model("Service", serviceSchema);

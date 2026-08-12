@@ -3,13 +3,12 @@ const routerAdmin = express.Router();
 import barberController from "./controllers/barber.controller";
 import makeUploader from "./libs/utils/uploader";
 import serviceController from "./controllers/service.controller";
+import masterController from "./controllers/master.controller";
 
 /** Barber admin */
 
 routerAdmin.get('/', barberController.goHome);
 routerAdmin.get('/dashboard', barberController.getDashboard);
-routerAdmin.get('/user/all', barberController.getUsers);
-routerAdmin.get('/master/all', barberController.getMasters);
 
 routerAdmin
     .get('/login', barberController.getLogin)
@@ -26,6 +25,25 @@ routerAdmin
 
 
 
+/** Masters */
+routerAdmin
+    .get('/master/all',
+        barberController.veryfyBarbershop,
+        masterController.getAllMasters
+    );
+routerAdmin
+    .get('/master/create', barberController.veryfyBarbershop, masterController.getMasterCreate)
+    .post('/master/create',
+        barberController.veryfyBarbershop,
+        makeUploader("masters").single("memberImage"),
+        masterController.createNewMaster,
+    );
+routerAdmin.post('/master/:id',
+    barberController.veryfyBarbershop,
+    masterController.updateChosenMaster,
+);
+
+
 /** Services */
 routerAdmin
     .get('/services/all',
@@ -33,6 +51,7 @@ routerAdmin
         serviceController.getAllServices
     );
 routerAdmin
+    .get('/services/create', serviceController.getServiceCreate)
     .post('/services/create',
         barberController.veryfyBarbershop,
         makeUploader("cutting-services").array("serviceImages", 5),
@@ -43,5 +62,17 @@ routerAdmin.post('/services/:id',
     serviceController.updateChosenService,
 );
 
+
 /** User */
+routerAdmin.get(
+    "/user/all",
+    barberController.veryfyBarbershop,
+    barberController.getUsers)
+
+routerAdmin.post(
+    "/user/edit",
+    barberController.veryfyBarbershop,
+    barberController.updateChosenUser,
+)
+
 export default routerAdmin;

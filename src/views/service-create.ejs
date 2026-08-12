@@ -1,75 +1,130 @@
-<%- include('./includes/head', { pageTitle: 'New Service', pageStyle: 'services' }) %>
+<%- include('includes/header') %>
+  <link rel="stylesheet" href="/css/admin.css" />
 
-<div class="ck-app">
-  <%- include('./includes/sidebar', { page: 'services', member }) %>
+  <body>
+    <div class="ck-wrap">
+      <%- include('includes/sidebar', { page: 'services' , member }) %>
 
-  <main class="ck-main">
-    <header class="ck-topbar">
-      <div>
-        <span class="ck-topbar-kicker">WORKSPACE / CATALOG / NEW</span>
-        <h1>Create <em>service.</em></h1>
-      </div>
-      <a href="/admin/services/all" class="ck-outline-btn">← Back to services</a>
-    </header>
-
-    <section class="ck-page-content">
-      <form action="/admin/services/create" method="POST" enctype="multipart/form-data" class="ck-create-grid">
-        <section class="ck-dashboard-panel ck-create-main">
-          <span class="ck-section-kicker">SERVICE DETAILS</span>
-          <h2>Define the experience.</h2>
-          <p class="ck-create-intro">Keep the menu simple, clear and easy for clients to understand.</p>
-
-          <label class="ck-field"><span>Service name</span><input name="serviceName" placeholder="Seoul Signature Fade" required /></label>
-          <div class="ck-form-grid">
-            <label class="ck-field"><span>Category</span>
-              <select name="serviceCollection" required>
-                <option value="">Choose category</option>
-                <option value="SIGNATURE">Signature</option>
-                <option value="HAIRCUT">Haircut</option>
-                <option value="PERM">Perm</option>
-                <option value="BEARD">Beard</option>
-                <option value="COLOR">Color</option>
-                <option value="SCALP_CARE">Scalp care</option>
-                <option value="STYLING">Styling</option>
-                <option value="PACKAGE">Package</option>
-              </select>
-            </label>
-            <label class="ck-field"><span>Status</span>
-              <select name="serviceStatus">
-                <option value="ACTIVE">Active</option>
-                <option value="PAUSED">Paused</option>
-                <option value="COMING_SOON">Coming soon</option>
-              </select>
-            </label>
+        <div class="ck-main">
+          <div class="ck-topbar">
+            <span class="ck-page-title">New Service</span>
+            <div class="ck-topbar-right">
+              <a href="/admin/services/all" class="btn btn-ghost btn-sm">← Back</a>
+            </div>
           </div>
 
-          <div class="ck-form-grid">
-            <label class="ck-field"><span>Duration · minutes</span><input type="number" name="serviceDuration" min="5" step="5" placeholder="60" required /></label>
-            <label class="ck-field"><span>Price · KRW</span><input type="number" name="servicePrice" min="0" step="1000" placeholder="45000" required /></label>
+          <div class="ck-content">
+            <div class="ck-panel" style="max-width:740px;">
+              <div class="ck-panel-head">
+                <span class="ck-panel-title">Service Details</span>
+              </div>
+              <div class="ck-panel-body">
+                <form action="/admin/services/create" method="POST" enctype="multipart/form-data">
+
+                  <div class="ck-form-grid">
+                    <div class="ck-form-group">
+                      <label class="ck-label">Service Name *</label>
+                      <input class="ck-input" type="text" name="serviceName" placeholder="Signature Haircut" required />
+                    </div>
+                    <div class="ck-form-group">
+                      <label class="ck-label">Category *</label>
+                      <select class="ck-input ck-select" name="serviceCollection" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="SIGNATURE">SIGNATURE</option>
+                        <option value="HAIRCUT">HAIRCUT</option>
+                        <option value="PERM">PERM</option>
+                        <option value="BEARD">BEARD</option>
+                        <option value="COLOR">COLOR</option>
+                        <option value="SCALP_CARE">SCALP CARE</option>
+                        <option value="STYLING">STYLING</option>
+                        <option value="PACKAGE">PACKAGE</option>
+                      </select>
+                    </div>
+                    <div class="ck-form-group">
+                      <label class="ck-label">Price (₩) *</label>
+                      <input class="ck-input" type="number" name="servicePrice" placeholder="45000" min="0" required />
+                    </div>
+                    <div class="ck-form-group">
+                      <label class="ck-label">Duration (min) *</label>
+                      <input class="ck-input" type="number" name="serviceDuration" placeholder="45" min="1" required />
+                    </div>
+                    <div class="ck-form-group ck-form-full">
+                      <label class="ck-label">Description</label>
+                      <textarea class="ck-input" name="serviceDesc" rows="3" placeholder="Describe this service..."
+                        style="resize:vertical;"></textarea>
+                    </div>
+                    <div class="ck-form-group ck-form-full">
+                      <label class="ck-label">Service Images (up to 5)</label>
+                      <div class="ck-upload-grid">
+                        <% for (let i=0; i < 5; i++) { %>
+                          <label class="ck-upload-tile">
+                            <input type="file" name="serviceImages" accept="image/jpg,image/jpeg,image/png"
+                              onchange="ckPreview(this)" />
+                            <img class="ck-upload-preview" />
+                            <span class="ck-upload-remove" onclick="ckRemove(event, this)">
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round">
+                                <line x1="18" y1="6" x2="6" y2="18" />
+                                <line x1="6" y1="6" x2="18" y2="18" />
+                              </svg>
+                            </span>
+                            <div class="ck-upload-empty">
+                              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19" />
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                              </svg>
+                              <span>
+                                <%= i===0 ? 'Cover' : 'Photo' %>
+                              </span>
+                            </div>
+                          </label>
+                          <% } %>
+                      </div>
+                      <p class="ck-upload-hint">JPG, JPEG, PNG — the first photo is used as the cover image</p>
+                    </div>
+                  </div>
+
+                  <div class="ck-form-actions">
+                    <button type="submit" class="btn btn-gold" style="padding:12px 28px;">
+                      Create Service
+                    </button>
+                    <a href="/admin/services/all" class="btn btn-ghost" style="padding:12px 28px;">
+                      Cancel
+                    </a>
+                  </div>
+
+                </form>
+              </div>
+            </div>
           </div>
+        </div>
+    </div>
 
-          <label class="ck-field"><span>Description</span><textarea name="serviceDesc" rows="5" placeholder="A short description clients will understand." required></textarea></label>
-
-          <div class="ck-create-actions">
-            <a href="/admin/services/all" class="ck-outline-btn">Cancel</a>
-            <button class="ck-primary-btn" type="submit">Create service <span>↗</span></button>
-          </div>
-        </section>
-
-        <aside class="ck-dashboard-panel ck-create-side">
-          <span class="ck-section-kicker">PREVIEW</span>
-          <div class="ck-preview-card">
-            <span>HAIRCUT</span>
-            <h3>Your service.</h3>
-            <p>Professional CutKing service.</p>
-            <div><strong>60 MIN</strong><strong>₩45,000</strong></div>
-          </div>
-          <p class="ck-side-tip">Tip · Signature services should have a distinct name and a short client-friendly description.</p>
-        </aside>
-      </form>
-    </section>
-  </main>
-</div>
-
-</body>
-</html>
+    <script>
+      function ckPreview(input) {
+        const tile = input.closest('.ck-upload-tile');
+        const img = tile.querySelector('.ck-upload-preview');
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            img.src = e.target.result;
+            img.style.display = 'block';
+            tile.classList.add('has-image');
+          };
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+      function ckRemove(e, btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        const tile = btn.closest('.ck-upload-tile');
+        tile.querySelector('input[type="file"]').value = '';
+        const img = tile.querySelector('.ck-upload-preview');
+        img.src = '';
+        img.style.display = 'none';
+        tile.classList.remove('has-image');
+      }
+    </script>
+  </body>
+  <%- include('includes/footer') %>
