@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import memberController from "./controllers/member.controller";
+import uploader from "./libs/utils/uploader";
 
 /** Member */
 router.post("/member/signup", memberController.signup);
@@ -17,9 +18,15 @@ router.get("/member/detail",
     memberController.getMemberDetail);
 
 
-/** Product */
+router.post("/member/update",
+    memberController.veryfyAuth,
+    uploader("members").single("memberImage"), // uploads members filega memberImage nomi bilan saqlashini korsatdik
+    memberController.updateMember
+);
+
+/** Services */
 
 
-/** Order */
+/** Bookings */
 
 export default router; 
