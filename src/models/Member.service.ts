@@ -16,7 +16,17 @@ class MemberService {
     }
 
     /** SPA=========== */
-    // Define
+    public async getBarber(): Promise<Member> {
+        const result = await this.memberModel
+            .findOne({ memberType: MemberType.BARBER })
+            .lean() // plain JS objectga ogirib beradi documentni uni biz ozgartirsak boladi
+            .exec();
+
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result as unknown as Member;
+    }
+
     public async signup(input: MemberInput): Promise<Member> {
         const salt = await bcrypt.genSalt();
         input.memberPassword = await bcrypt.hash(input.memberPassword, salt);
