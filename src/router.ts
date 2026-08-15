@@ -2,8 +2,16 @@ import express from "express";
 const router = express.Router();
 import memberController from "./controllers/member.controller";
 
-/** SPA */
-router.post('/member/signup', memberController.signup)
-router.post('/member/login', memberController.login);
+/** Member */
+router.post("/member/login", memberController.login);
+router.post("/member/signup", memberController.signup);
+// credential checking
+router.get("/member/detail", memberController.veryfyAuth);
 
-export default router;
+
+/** Product */
+
+
+/** Order */
+
+export default router; 
