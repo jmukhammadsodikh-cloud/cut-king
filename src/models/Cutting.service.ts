@@ -1,7 +1,9 @@
 import Errors, { HttpCode, Message } from "../libs/Errors";
-import { ServceInput, Service, ServiceUpdateInput } from "../libs/types/service";
+import { ServceInput, Service, ServiceInquiry, ServiceUpdateInput } from "../libs/types/service";
 import ServiceModel from "../schema/Service.model";
 import { shapeIntoMongooseObjectId } from "../libs/config";
+import { T } from "../libs/types/common";
+import { ServiceStatus } from "../libs/enums/service.enum";
 
 class CuttingService {
     private readonly serviceModel;
@@ -14,8 +16,52 @@ class CuttingService {
     /** SPA=========== */
 
 
-    /** BSSR============ */
+    public async getServices(inquiry: ServiceInquiry): Promise<Service[]> {
+        const match: T = { serviceStatus: ServiceStatus.PROCESS };
 
+        if (inquiry.serviceCollection)
+            match.serviceCollection = inquiry.serviceCollection;
+
+        if (inquiry.search) {
+            match.productName = { $regex: new RegExp(inquiry.search, "i") };
+        }
+
+        const sort: T =
+            inquiry.booking === "servicePrise"
+                ? { [inquiry.booking]: 1 } // prise: eng arzonidan yuqoriga
+                : { [inquiry.booking]: -1 }; // created at: eng ohirgi qoshilgandan pastga qarab
+
+        const result = await this.serviceModel
+            .aggregate([
+                { $match: match },
+                { $sort: sort },
+                { $skip: (inquiry.page * 1 - 1) * inquiry.limit }, // skip qil limitga qarab
+                { $limit: inquiry.limit * 1 },  // skipdan keyingi page olib ber
+            ])
+            .exec();
+
+        if (!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /** BSSR============ */
 
     public async getAllServices(): Promise<Service[]> { // array ichida bir qator productlarni qaytarishi kerak
         const result = await this.serviceModel.find().exec();

@@ -3,7 +3,8 @@ import Errors, { HttpCode, Message } from "../libs/Errors";
 import { T } from "../libs/types/common";
 import CuttingService from "../models/Cutting.service";
 import { AdminRequest } from "../libs/types/member";
-import { ServceInput } from "../libs/types/service";
+import { ServceInput, ServiceInquiry } from "../libs/types/service";
+import { ServiceCollection } from "../libs/enums/service.enum";
 
 
 const cuttingService = new CuttingService();
@@ -11,6 +12,47 @@ const cuttingService = new CuttingService();
 const serviceController: T = {};
 
 /** SPA=========== */
+
+serviceController.getServices = async (req: Request, res: Response) => {
+    try {
+        console.log("getServices");
+
+        const { page, limit, booking, serviceCollection, search } = req.query;
+
+        const inquiry: ServiceInquiry = { // object yaratish
+            booking: String(booking), // "createdAt" — qaysi fieldga qarab tartiblash
+            page: Number(page),    // 1 — nechinchi sahifa
+            limit: Number(limit),  // 8 — bir sahifada nechta
+        };
+
+        if (serviceCollection) {
+            // productCollection kelsa → FOOD, DRINK, DESSERT...
+            // kelmasa → hammasi (filter yo'q)
+            inquiry.serviceCollection = serviceCollection as ServiceCollection;
+        }
+
+        if (search) inquiry.search = String(search);
+        // search kelsa → "lavash" bilan qidiradi
+        // kelmasa → qidiruv yo'q
+
+        const result = await cuttingService.getServices(inquiry);
+
+        res.status(HttpCode.OK).json(result);
+    } catch (err) {
+        console.log("Error, getServices:", err);
+
+        if (err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard);
+    }
+};
+
+
+
+
+
+
+
+
 
 /** BSSR============ */
 

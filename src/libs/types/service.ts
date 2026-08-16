@@ -14,6 +14,16 @@ export interface Service {
 }
 
 
+export interface ServiceInquiry {
+    booking: string;
+    page: number;
+    limit: number;
+    serviceCollection?: ServiceCollection;
+    search?: string;
+}
+
+
+
 export interface ServceInput {
     serviceStatus?: ServiceStatus;
     serviceCollection: ServiceCollection;

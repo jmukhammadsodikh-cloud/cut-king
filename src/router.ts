@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import memberController from "./controllers/member.controller";
 import uploader from "./libs/utils/uploader";
+import serviceController from "./controllers/service.controller";
 
 /** Member */
 router.get("/member/barber", memberController.getBarber);
@@ -23,7 +24,7 @@ router.get("/member/top-users", memberController.getTopUsers);
 
 
 /** Services */
-
+router.get("/services/all", serviceController.getServices);
 
 /** Bookings */
 
